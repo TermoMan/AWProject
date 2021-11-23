@@ -19,6 +19,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get("/", function (request, response, next) {
+  if (request.session.email) {
+    response.locals.email = request.session.email;
+    response.locals.password =  request.session.password;
+
+    response.redirect("/");
+  } else {
+    response.redirect("/users/login");
+  }
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

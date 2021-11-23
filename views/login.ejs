@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div>
+        <form action="/users/login" method="POST">
+            <h2>Iniciar Sesión</h2>
+            <div>
+                <p>Usuario:</p>
+                <input type="text" name="user" id="usuario" required>
+              </div>
+              <div>
+                <p>Contraseña:</p>
+                <input type="password" name="password" required>
+              </div>
+            <input type="submit" class="btn btn-light" value="Entrar">
+            <a href="/users/register" class="btn btn-light">Registrarse</a>
+          </form>
+    </div>
+</body>
+</html>
