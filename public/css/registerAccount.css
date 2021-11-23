@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap');	/*Letra utilizada en el formulario.*/
+
+form {
+	width: 450px;
+	margin: auto;
+    background-color: white;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	border-radius: 3px;
+}
+
+h2 {
+	color: rgb(48, 46, 54);
+	text-align: center;
+	margin: 0;
+	font-family: 'Nunito Sans', sans-serif;
+	font-size: 25px;
+	margin-bottom: 20px;
+}
+
+input, textarea {
+	background-color: rgb(245, 235, 235);
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 7px;
+	box-sizing: border-box;
+	font-family: 'Nunito Sans', sans-serif;
+	font-size: 17px;
+	border: none;
+}
+
+textarea {
+	min-height: 100px;
+	max-height: 200px;
+	min-width: 100%;
+	max-width: 100%;
+}
+
+p {
+	font-family: 'Nunito Sans', sans-serif;
+    margin-bottom: 1%;
+	line-height: 100%;
+}
+
+input.btn_create{
+	background-color: rgb(48, 46, 54);
+	color: white;
+}
+
+.errorMessage{
+	color:red;
+	text-align: center;
+}

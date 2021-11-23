@@ -1,0 +1,21 @@
+body {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: auto 1fr;
+}
+
+header nav {
+  background-color: #17406d;
+}
+
+header nav .navbar-toggler {
+  box-shadow: none !important;
+}
+
+main {
+  overflow-y: auto;
+}
+
+main > .container-md {
+  margin-top: 0.75rem;
+}

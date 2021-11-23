@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - 14
+notifications:
+  webhooks: https://travis-for-jira-prod.toolsplus.app/travis/notifications?token=707f0716-c62e-36f5-8bf9-67190be3b98b
+  on_success: always
+  on_failure: always
+  on_start: always
+  on_cancel: always
+  on_error: always
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE test;'
+  - mysql -u travis < Collectio_test.sql

@@ -1,0 +1,30 @@
+.titulo{
+    color:white;
+    margin-top: 15%;
+    margin-bottom: 30px;
+}
+
+#descripcion{
+    font-style: italic;
+}
+
+#carouselExampleControls{
+    max-width: 40%;
+    margin-left: 15%;
+}
+
+p{
+    color: white;
+}
+
+.carousel-control-prev {
+  left: -15%;
+}
+
+.carousel-control-next {
+  right: -15%;
+}
+
+.alert-dark {
+  margin-top: 40px;
+}

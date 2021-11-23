@@ -1,0 +1,45 @@
+
+h2{
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 30px;
+  }  
+  
+  .navbar.bg-dark {
+      background: #111417 !important;
+  }
+    
+  .container.login-container {
+      color: white;
+  }
+    
+  .navbar-toggler, .navbar-toggler:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+  }
+    
+  .items-list tr > *:last-child {
+      width: 12rem;
+      text-align: right;
+  }
+    
+  .big-error-status {
+      font-size: 6rem;
+      text-align: center;
+  }
+    
+  .big-error-message {
+      font-size: 2rem;
+      text-align: center;
+  }
+
+  img{
+      width: 100px;
+      height: auto;
+  }
+
+  a {
+    text-decoration:none;
+    color: white;
+  }
