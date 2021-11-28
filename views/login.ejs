@@ -7,6 +7,11 @@
 </head>
 <body>
     <div>
+        <% if(error) { %>
+          <div class="errorMessage">
+            <%=error%>
+          </div>
+        <% } %>
         <form action="/users/login" method="POST">
             <h2>Iniciar Sesión</h2>
             <div>

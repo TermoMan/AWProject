@@ -1,15 +1,13 @@
+const getpool = require("../config.js");
+const pool = getpool();
 
-
-class DAOUser{
-    constructor(pool) {
-        this.pool = pool;
-    }
+class DAOUser {
     isUser(email, password, callback) {
-        this.pool.getConnection(function(err, connection) {
+        pool.getConnection(function(err, connection) {
             if (err) {
-                callback(new Error("Error de conexión a la base de datos"));
+                callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT * FROM user WHERE email = ? AND password = ?", [email, password],
+                connection.query("SELECT * FROM usuario WHERE correo = ? AND contraseña = ?", [email, password],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
@@ -18,7 +16,7 @@ class DAOUser{
                             if (rows.length === 0) {
                                 callback(null, false); //no está el usuario con el password proporcionado
                             } else {
-                                callback(null, true);
+                                callback(null, rows);
                             }
                         }
                     });
