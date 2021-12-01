@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-11-2021 a las 20:58:09
--- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.4.3
+-- Tiempo de generación: 01-12-2021 a las 18:54:24
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `404db2`
+-- Base de datos: `404db`
 --
 
 -- --------------------------------------------------------
@@ -69,6 +68,25 @@ INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`,
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) UNSIGNED NOT NULL,
+  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
+('h3olf6qwPswICpY1yZU5DM38mpegO-QV', 1638449535, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\"}');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tag-preg`
 --
 
@@ -113,7 +131,7 @@ CREATE TABLE `usuario` (
   `correo` varchar(50) NOT NULL,
   `contraseña` varchar(50) NOT NULL,
   `nickname` int(20) NOT NULL,
-  `imagen` varchar(50) NOT NULL,
+  `imagen` varchar(50) DEFAULT NULL,
   `fecha` date NOT NULL,
   `reputacion` int(100) NOT NULL DEFAULT 1,
   `activo` tinyint(1) NOT NULL
@@ -144,6 +162,12 @@ ALTER TABLE `respuestas`
   ADD PRIMARY KEY (`idrespuesta`),
   ADD KEY `idpregunta_respuestas_fk` (`idpregunta`),
   ADD KEY `idusuario_respuestas_fk` (`idusuario`);
+
+--
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
 
 --
 -- Indices de la tabla `tag-preg`
