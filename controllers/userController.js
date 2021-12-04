@@ -16,10 +16,14 @@ module.exports = {
             } else if (!result) {
                 response.render("login", { error: "No existe el usuario" });
             } else {
-                console.log(result);
                 request.session.email = result[0].correo;
                 request.session.password = request.body.password;
-                console.log("sasasasa");
+                request.session.name = result[0].nickname;
+                request.session.userId = result[0].id;
+                request.session.image = result[0].imagen;
+                request.session.date = result[0].fecha;
+                request.session.reputation = result[0].reputacion;
+
                 response.redirect("/");
             }
         });
@@ -28,30 +32,25 @@ module.exports = {
         response.render("registration", { error: null });
     },
     register(request, response){
-        /*var img = request.body.img;
-        if(img === ""){
-            console.log("sasasa");
-            fs.readdir("\images", function(err, files){
-                if(err) console.log(err);
-                else {
-                    var random = files[Math.floor(Math.random()*files.length)];
-
-                }   
-            })
-        }
-        DAOUserr.register(request.body.user, request.body.password, function(err, result) {
+        request.session.destroy();
+        var img = request.file;
+        let imagen = null;
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        if(img === undefined){
+            var dir = './images'
+            var files = fs.readdirSync(dir);
+            imagen = files[Math.floor(Math.random()*files.length)];
+        } else imagen = img.originalname;
+        DAOUserr.register(request.body.user, request.body.password, request.body.nickname, imagen, date, function(err, result) {
             if (err) {
                 console.log(err);
-                response.render("login", { error: "Error interno de acceso a la base de datos" });
+                response.render("registration", { error: "Error interno de acceso a la base de datos" });
             } else if (!result) {
-                response.render("login", { error: "No existe el usuario" });
+                response.render("registration", { error: "Ya existe el usuario" });
             } else {
-                console.log(result);
-                request.session.email = result[0].correo;
-                request.session.password = request.body.password;
-                console.log("sasasasa");
-                response.redirect("/");
+                response.redirect("/users/login");
             }
-        });*/
+        });
     }
 };

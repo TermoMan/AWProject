@@ -15,10 +15,9 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,6 +41,11 @@ app.get("/", function(request, response, next) {
     if (request.session.email) {
         response.locals.email = request.session.email;
         response.locals.password = request.session.password;
+        response.locals.name = request.session.name;
+        response.locals.userId = request.session.userId;
+        response.locals.image = request.session.image;
+        response.locals.date = request.session.date;
+        response.locals.reputation = request.session.reputation;
 
         response.redirect("/index");
     } else {
