@@ -37,7 +37,7 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-app.get("/", function(request, response, next) {
+app.use(function(request, response, next) {
     if (request.session.email) {
         response.locals.email = request.session.email;
         response.locals.password = request.session.password;
@@ -46,6 +46,12 @@ app.get("/", function(request, response, next) {
         response.locals.image = request.session.image;
         response.locals.date = request.session.date;
         response.locals.reputation = request.session.reputation;
+    }
+    next();
+});
+
+app.get("/", function(request, response, next) {
+    if (request.session.email) {
 
         response.redirect("/index");
     } else {

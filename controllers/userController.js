@@ -29,6 +29,7 @@ module.exports = {
         });
     },
     doRegister(request, response){
+        request.session.destroy();
         response.render("registration", { error: null });
     },
     register(request, response){
@@ -38,9 +39,13 @@ module.exports = {
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         if(img === undefined){
-            var dir = './images'
+            var dir = './images/';
+            var dir2 = './uploads/';
             var files = fs.readdirSync(dir);
             imagen = files[Math.floor(Math.random()*files.length)];
+            fs.copyFile(dir += imagen, dir2 += imagen, (err) => {
+                if (err) throw err;
+            });
         } else imagen = img.originalname;
         DAOUserr.register(request.body.user, request.body.password, request.body.nickname, imagen, date, function(err, result) {
             if (err) {
