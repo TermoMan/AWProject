@@ -40,7 +40,7 @@ module.exports = {
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         if(img === undefined){
             var dir = './images/';
-            var dir2 = './uploads/';
+            var dir2 = './public/uploads/';
             var files = fs.readdirSync(dir);
             imagen = files[Math.floor(Math.random()*files.length)];
             fs.copyFile(dir += imagen, dir2 += imagen, (err) => {
