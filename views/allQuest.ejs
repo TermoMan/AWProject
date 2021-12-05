@@ -2,6 +2,7 @@
 <html>
     <head>
          <%- include('index') %>
+         <link rel="stylesheet" type="text/css" href="/stylesheets/preguntas.css" media="screen">
     </head>
     <body class="p-3 mb-2 bg-dark text-light">
         <div>
@@ -13,18 +14,53 @@
                     </div>
                 <% } %>
             </div>
-            <div>
-                <p class="text-center">Todas las preguntas</p>
+            <div class="float-container" id=title>
+                <p id=title>Todas las preguntas</p>
             </div>
-            <div>
-                <% if(quests.length===0) { %>
-                    <p>0 Preguntas</p>
-                <% } else { %>
-                    <% /* AQUI HAY QUE HACER UNA TABLA QUE CARGUE LOS DATOS DEL QUESTS*/ %> 
-                <% } %>
-                <div>
-                    <a class="btn btn-success" href="/index/formQuest">Formular una pregunta</a>
+            <div class="float-container">
+                <div class="float-child">
+                    <% if(quests.length===0) { %>
+                        <p id="pregs">0 Preguntas</p>
+                    <% } else { %>
+                        <p id="pregs"><%=quests.length %> Preguntas</p> 
+                    <% } %>
                 </div>
+                <div class="float-child" style="float:right;">
+                    <a class="btn btn-success" href="/index/formQuest" style="float:right;">Formular una pregunta</a>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <ul>
+                    <% quests.forEach(e => { %>
+                        <li>
+                            <div class="li-container">
+                                <div class="li-child">
+                                    <p class="li-tit"><%= e.titulo %></p>
+                                    <p class="li-body"><%= e.cuerpo %></p>
+                                    <div class="tag-container">
+                                        <% e.tags.forEach(el => { %>
+                                            <% if(el!==null){ %>
+                                            <div class="tag-child">
+                                                <p class="tag-tit"><%= el %></p>
+                                            </div>
+                                            <% } %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                                <div class="li-child">
+                                    <p class="li-tit c">Formulada el <%= e.fecha %></p>
+                                    <p class="li-tit c"><img src=<%="/uploads/" + e.imagen%> class="imgR" height= "100" width= "100"></p>
+                                    <p class="li-tit c"><%= e.nickname %></p>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                    
+                  </ul>
+                </div>
+                
             </div>
 
         </div>

@@ -22,11 +22,13 @@ router.get('/showQuestions', function(request, response){
             response.render("allQuest", {quests, error: null});
         } else {
             result.forEach(e => {
+                d = new Date(e.fecha);
+                var datestring = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
                 if (quests.length === 0) quests.push({
                     id: e.idpregunta,
                     titulo: e.titulo,
                     cuerpo: e.cuerpo,
-                    fecha: e.fecha,
+                    fecha: datestring,
                     nickname: e.nickname,
                     imagen: e.imagen,
                     tags: [e.texto]
@@ -37,7 +39,7 @@ router.get('/showQuestions', function(request, response){
                         id: e.idpregunta,
                         titulo: e.titulo,
                         cuerpo: e.cuerpo,
-                        fecha: e.fecha,
+                        fecha: datestring,
                         nickname: e.nickname,
                         imagen: e.imagen,
                         tags: [e.texto]
