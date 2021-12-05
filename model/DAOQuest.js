@@ -7,7 +7,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT * FROM preguntas JOIN usuario ON preguntas.idusuario = usuario.idusuario", [],
+                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario", [],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-    
+         <%- include('index') %>
     </head>
     <body class="p-3 mb-2 bg-dark text-light">
-        <%- include('index') %>
         <div>
             <div>
 
@@ -15,14 +14,17 @@
                 <% } %>
             </div>
             <div>
-                <p>Todas las preguntas</p>
+                <p class="text-center">Todas las preguntas</p>
             </div>
             <div>
                 <% if(quests.length===0) { %>
-                    <p>NO HAY PREGUNTAS</p>
+                    <p>0 Preguntas</p>
                 <% } else { %>
                     <% /* AQUI HAY QUE HACER UNA TABLA QUE CARGUE LOS DATOS DEL QUESTS*/ %> 
                 <% } %>
+                <div>
+                    <a class="btn btn-success" href="/index/formQuest">Formular una pregunta</a>
+                </div>
             </div>
 
         </div>

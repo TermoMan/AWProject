@@ -46,11 +46,9 @@ router.post("/login", function(request, response, next) {
 });
 
 router.get("/doRegister", function(request, response) {
-    request.session.destroy();
-    response.render("registration", { error: null });
+    response.render("register", { error: null });
 });
 router.post("/register", upload.single("img"), function(request, response) {
-    request.session.destroy();
     var img = request.file;
     let imagen = null;
     var today = new Date();

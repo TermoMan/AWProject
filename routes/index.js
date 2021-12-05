@@ -21,18 +21,35 @@ router.get('/showQuestions', function(request, response){
             response.render("allQuest", {quests, error: null});
         } else {
             result.forEach(e => {
-                let q = {
+                if (quests.length === 0) quests.push({
+                    id: e.idpregunta,
                     titulo: e.titulo,
                     cuerpo: e.cuerpo,
                     fecha: e.fecha,
                     nickname: e.nickname,
-                    imagen: e.imagen
-                };
-                quests.push(q);
+                    imagen: e.imagen,
+                    tags: [e.texto]
+                });
+                else{
+                    if (quests[quests.length - 1].id === e.idpregunta) quests[quests.length - 1].tags.push(e.texto);
+                    else quests.push({
+                        id: e.idpregunta,
+                        titulo: e.titulo,
+                        cuerpo: e.cuerpo,
+                        fecha: e.fecha,
+                        nickname: e.nickname,
+                        imagen: e.imagen,
+                        tags: [e.texto]
+                    });
+                }
             });
             response.render("allQuest", {quests, error: null});
         }
     });
+});
+
+router.get('/formQuest', function(request, response){
+    response.render("newQuest", { error: null });
 });
 
 module.exports = router;
