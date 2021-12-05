@@ -6,12 +6,13 @@ const fs = require('fs');
 const DAOQuestt = new DAOQuest();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    console.log(res.locals);
-    res.render('index');
+router.get('/', function(request, response, next) {
+    console.log(response.locals);
+    response.render('index');
 });
 
 router.get('/showQuestions', function(request, response){
+    console.log(response.locals);
     DAOQuestt.getQuestions(function(err, result) {
         let quests = new Array();
         if (err) {
@@ -49,7 +50,26 @@ router.get('/showQuestions', function(request, response){
 });
 
 router.get('/formQuest', function(request, response){
+    console.log(response.locals);
     response.render("newQuest", { error: null });
 });
 
+router.post('/insertQuest', function(request, response){
+    var lbls = request.body.labels;
+    console.log(response.locals);
+    lbls = lbls.split("@");
+    lbls.shift();
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    DAOQuestt.insertQuest(response.locals.userId, request.body.title, request.body.info, date, lbls, function(err, result) {
+        if (err) {
+            console.log(err);
+            response.render("newQuest", { error: "Error interno de acceso a la base de datos" });
+        } else if (!result) {
+            response.render("newQuest", { error: "Ya existe esa pregunta" });
+        } else {
+            response.redirect("/");
+        }
+    });
+});
 module.exports = router;

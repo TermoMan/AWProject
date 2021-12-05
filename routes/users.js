@@ -35,7 +35,7 @@ router.post("/login", function(request, response, next) {
             request.session.email = result[0].correo;
             request.session.password = request.body.password;
             request.session.name = result[0].nickname;
-            request.session.userId = result[0].id;
+            request.session.userId = result[0].idusuario;
             request.session.image = result[0].imagen;
             request.session.date = result[0].fecha;
             request.session.reputation = result[0].reputacion;
@@ -65,9 +65,9 @@ router.post("/register", upload.single("img"), function(request, response) {
     DAOUserr.register(request.body.user, request.body.password, request.body.nickname, imagen, date, function(err, result) {
         if (err) {
             console.log(err);
-            response.render("registration", { error: "Error interno de acceso a la base de datos" });
+            response.render("register", { error: "Error interno de acceso a la base de datos" });
         } else if (!result) {
-            response.render("registration", { error: "Ya existe el usuario" });
+            response.render("register", { error: "Ya existe el usuario" });
         } else {
             response.redirect("/users/login");
         }
