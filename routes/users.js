@@ -22,7 +22,7 @@ router.get("/login", function(request, response) {
 router.get("/logout", function(request, response) {
     request.session.destroy();
     response.render('login', { error: null });
-})
+});
 
 router.post("/login", function(request, response, next) {
     DAOUserr.isUser(request.body.user, request.body.password, function(err, result) {

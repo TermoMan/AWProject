@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+    </head>
+    <body class="p-3 mb-2 bg-dark text-light">
+        <%- include('index') %>
+        <div>
+            <div>
+
+                <% if(error) { %>
+                    <div class="errorMessage">
+                        <%=error%>
+                    </div>
+                <% } %>
+            </div>
+            <div>
+                <% if(quests.length===0) { %>
+                    <p>NO HAY COLECCIONES</p>
+                <% } else { %>
+                    <% /* AQUI HAY QUE HACER UNA TABLA QUE CARGUE LOS DATOS DEL QUESTS*/ %> 
+                <% } %>
+            </div>
+
+        </div>
+    </body>
+</html>
+
+

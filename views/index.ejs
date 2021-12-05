@@ -16,7 +16,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">MENU</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Preguntas</a></li>
+                            <li><a class="dropdown-item" href="/index/showQuestions">Preguntas</a></li>
                             <li><a class="dropdown-item" href="#">Sin Responder</a></li>
                             <li><a class="dropdown-item" href="#">Usuarios</a></li>
                         </ul>
@@ -26,18 +26,12 @@
                 <div>
                     <ul>
                         <li class="nav-item me-3">
-                            <a class="btn text-white border border-white btn-sm rounded-0>" href="#">
-                                <%=image%>
-                            </a>
                             <div class="cal">
                                 <img src=<%="/uploads/" + image%> class="imgR" height= "100" width= "100">
                             </div>
                         </li>
                         <li class="nav-item">
                             <a class="btn text-white border border-white btn-sm rounded-0" href="/users/logout">Cerrar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn text-white border border-white btn-sm rounded-0" href="/users/login">Iniciar sesión</a>
                         </li>
                     </ul>
                 </div>
