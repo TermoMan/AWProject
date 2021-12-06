@@ -13,3 +13,30 @@ a {
 .btn-primary:focus {
     background: hsl(24, 76, 297) !important;
 }
+
+.form-group.c{
+    text-align: center;
+}
+
+.campos{
+    padding-top: 10px;
+    font-family: 'Encode Sans', sans-serif;
+}
+
+.float-container {
+    padding-top: 1%;
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+
+} 
+.btn.btn-success{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 110%;
+    padding: 5%;
+}
