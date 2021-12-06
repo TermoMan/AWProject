@@ -14,6 +14,10 @@ a {
     background: hsl(24, 76, 297) !important;
 }
 
+.navbar{
+    align-items: center;
+}
+
 .form-group.c{
     text-align: center;
 }

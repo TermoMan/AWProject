@@ -5,6 +5,16 @@ const DAOQuest = require("../model/DAOQuest");
 const fs = require('fs');
 const DAOQuestt = new DAOQuest();
 
+function convertirFecha (fechaString) {
+    var fechaSp = fechaString.split("-");
+    var anio = new Date().getFullYear();
+    anio = fechaSp[2];
+    var mes = fechaSp[1] - 1;
+    var dia = fechaSp[0];
+  
+    return new Date(anio, mes, dia);
+  }
+
 /* GET home page. */
 router.get('/', function(request, response, next) {
     console.log(response.locals);
@@ -46,9 +56,13 @@ router.get('/showQuestions', function(request, response){
                     });
                 }
             });
+            console.log(quests.sort(function (a, b) { 
+                return convertirFecha(b.fecha) - convertirFecha(a.fecha) ; 
+              }));
             response.render("allQuest", {quests, error: null});
         }
     });
+    
 });
 
 router.get('/formQuest', function(request, response){
