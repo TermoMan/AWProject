@@ -7,13 +7,14 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@200&family=IBM+Plex+Mono:wght@200&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="p-3 mb-2 bg-dark text-light">
     <form action="/users/register" method="POST" enctype="multipart/form-data">
-        <h1>
-            <p class="text-center"> 404</p>
-        </h1>
+        <div class="row justify-content-center">
+            <img src="/images/404logo.png" width="480" height="270"></img>
+        </div>
         <div class="container">
             <form role="form">
                 <div class="form-group">
@@ -29,18 +30,27 @@
                 </div>
                 <div class="form-group">
                     <label class="campos">Contraseña*</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <input type="password" class="form-control" id = "p1" 
+                    pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{6,20}$" 
+                    title="La contraseña debe tener entre 6 y 20 caracteres, una letra minúscula, otra mayúscula y un dígito" 
+                    name="password" onChange="seeValidity()" required>
+                </div>
+                <div class="float-container c">
+                    <button class="btn btn-secondary c" id="1" type="button" onclick="showPassword(this)">Mostrar Contraseña</button>
                 </div>
                 <div class="form-group">
                     <label class="campos">Confirmar Contraseña*</label>
-                    <input type="password" class="form-control" name="password2" required>
+                    <input type="password" class="form-control" id = "p2" name="password2" onChange="seeValidity()" required>
+                </div>
+                <div class="float-container c">
+                    <button class="btn btn-secondary c" id="2" type="button" onclick="showPassword(this)">Mostrar Contraseña</button>
                 </div>
                 <div class="form-group">
                     <label class="campos">Nickname*</label>
                     <input type="text" class="form-control" name="nickname" required>
                 </div>
                 <div class="form-group c">
-                    <label class="campos">Imagen de perfil</label>
+                    <label class="campos">Imagen de perfil:&nbsp;&nbsp;</label>
                     <input type="file" id="img" name="img" accept="image/" onchange="verIm(this)">
                     <img id="laImg" src="#" />
                 </div>
@@ -66,11 +76,29 @@
                 reader.onload = function (e) {
                     $('#laImg')
                         .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
+                        .width(130)
+                        .height(130);
                 };
 
                 reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function seeValidity() {
+            var pass = document.getElementById("p1");
+            var pass2 = document.getElementById("p2");
+            if (pass.value === pass2.value) {
+                pass2.setCustomValidity('');
+            } else {
+                pass2.setCustomValidity('No coinciden las contraseñas');
+            }
+        }
+        function showPassword(i) {
+            var s = "p" + i.id;
+            var pass = document.getElementById(s);
+            if (pass.type == "password") {
+                pass.type = "text";
+            } else {
+                pass.type = "password";
             }
         }
     </script>

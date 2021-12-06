@@ -29,7 +29,12 @@ a {
     width: 50%;
     text-align: center;
 }
-
+.float-container.c {
+    padding-top: 1%;
+    margin-top: -6%;
+    text-align: right;
+    float:right;
+}
 .float-child {
     width: 50%;
     float: left;
@@ -39,4 +44,10 @@ a {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 110%;
     padding: 5%;
+}
+.btn.btn-secondary.c{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 110%;
+    padding: 1%;
+
 }

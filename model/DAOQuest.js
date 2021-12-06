@@ -23,7 +23,7 @@ class DAOQuest {
             }
         });
     }
-    insertQuest(userId, title, info, date, lbls, callback){
+      insertQuest(userId, title, info, date, lbls, callback){
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
