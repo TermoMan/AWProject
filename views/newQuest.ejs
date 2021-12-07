@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <%- include('index') %>
-    </head>
-    <body class="p-3 mb-2 bg-dark text-light">
+
+<head>
+    <%- include('index') %>
+</head>
+
+<body class="p-3 mb-2 bg-dark text-light">
+    <div>
         <div>
-            <div>
-                <% if(error) { %>
-                    <div class="errorMessage">
-                        <%=error%>
-                    </div>
+            <% if(error) { %>
+                <div class="errorMessage">
+                    <%=error%>
+                </div>
                 <% } %>
-            </div>
-            <div>
-                <p class="text-center">Formular una pregunta</p>
-            </div>
-            <div class="container">
-                    <form action="/index/insertQuest" method="POST">
-                        <div class="form-group">
-                            <label for="titulo">Titulo*</label>
-                            <input type="text" class="form-control" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cuerpo">Cuerpo*</label>
-                            <input type="text" class="form-control" name="info" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="etiquetas">Etiquetas</label>
-                            <input type="text" class="form-control" name="labels">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Publicar Pregunta</button>
-                    </form>
-            </div>
         </div>
-    </body>
+        <div>
+            <p class="text-center">Formular una pregunta</p>
+        </div>
+        <div class="container">
+            <form action="/index/insertQuest" method="POST">
+                <div class="form-group">
+                    <label for="titulo">Titulo*</label>
+                    <br>Sé específico e imagina que estás haciendo la pregunta a otra persona</br>
+                    <input type="text" placeholder="¿Cuál es tu pregunta sobre programación?" class="form-control" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="cuerpo">Cuerpo*</label>
+                    <br>Incluye toda la información que alguien necesitaría para responder a tu pregunta</br>
+                    <input type="text" class="form-control" name="info" required>
+                </div>
+                <div class="form-group">
+                    <label for="etiquetas">Etiquetas</label>
+                    <br>Añade hasta 5 etiquetas para describir sobre qué trata tu pregunta</br>
+                    <input type="text" placeholder="Por ejemplo @node @Express" class="form-control" name="labels">
+                </div>
+                <button type="submit" class="btn btn-primary">Publicar Pregunta</button>
+            </form>
+        </div>
+    </div>
+</body>
+
 </html>
-
-
