@@ -55,6 +55,13 @@ li{
     float: left;
     padding-left: 5px;
 }
+a:hover { 
+    text-decoration: none; 
+    color: rgb(1, 255, 1);
+}
+.tgs{
+    color: rgb(1, 255, 1);
+}
 
 .tag-tit{
     padding: 10px;

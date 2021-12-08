@@ -16,7 +16,7 @@
                 <% } %>
             </div>
             <div class="float-container" id=title>
-                <p id=title>Todas las preguntas</p>
+                <p id=title><%=titulo%></p>
             </div>
             <div class="float-container">
                 <div class="float-child">
@@ -44,7 +44,9 @@
                                         <% e.tags.forEach(el => { %>
                                             <% if(el!==null){ %>
                                             <div class="tag-child">
-                                                <p class="tag-tit"><%= el %></p>
+                                                <p class="tag-tit">
+                                                    <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                                                </p>
                                             </div>
                                             <% } %>
                                         <% }) %>
