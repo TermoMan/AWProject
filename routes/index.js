@@ -15,6 +15,7 @@ function convertirFecha(fechaString) {
     return new Date(anio, mes, dia);
 }
 
+
 /* GET home page. */
 router.get('/', function(request, response, next) {
     console.log(response.locals);
@@ -92,6 +93,50 @@ router.post('/insertQuest', function(request, response) {
 router.post('/search', function(request, response) {
     let text = request.body.texto;
     DAOQuestt.getQuestionsText(text, function(err, result) {
+        let quests = new Array();
+        if (err) {
+            console.log(err);
+            response.render("index");
+        } else if (!result) {
+            response.render("index");
+        } else {
+            result.forEach(e => {
+                d = new Date(e.fecha);
+                var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                if (quests.length === 0) quests.push({
+                    id: e.idpregunta,
+                    titulo: e.titulo,
+                    cuerpo: e.cuerpo,
+                    fecha: datestring,
+                    nickname: e.nickname,
+                    imagen: e.imagen,
+                    tags: [e.texto]
+                });
+                else {
+                    if (quests[quests.length - 1].id === e.idpregunta) quests[quests.length - 1].tags.push(e.texto);
+                    else quests.push({
+                        id: e.idpregunta,
+                        titulo: e.titulo,
+                        cuerpo: e.cuerpo,
+                        fecha: datestring,
+                        nickname: e.nickname,
+                        imagen: e.imagen,
+                        tags: [e.texto]
+                    });
+                }
+            });
+            quests.sort(function(a, b) {
+                return convertirFecha(b.fecha) - convertirFecha(a.fecha);
+            });
+            response.render("allQuest", { quests, error: null });
+        }
+    })
+
+});
+
+router.post('/notAnswer', function(request, response) {
+    let text = request.body.texto;
+    DAOQuestt.getQuestionsNotAnswer(text, function(err, result) {
         let quests = new Array();
         if (err) {
             console.log(err);
