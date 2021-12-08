@@ -91,7 +91,8 @@ router.post('/insertQuest', function(request, response) {
 
 router.post('/search', function(request, response) {
     let text = request.body.texto;
-    DAOQuest.getQuestionsText(text, function(err, result) {
+    DAOQuestt.getQuestionsText(text, function(err, result) {
+        let quests = new Array();
         if (err) {
             console.log(err);
             response.render("index");
