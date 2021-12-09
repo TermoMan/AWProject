@@ -38,6 +38,10 @@ li{
     padding-left: 200px !important;
 }
 
+.li-body{
+    max-width: 30em!important;
+}
+
 .li-tit{
     font-size:120%;
     color:rgb(1, 255, 1); 

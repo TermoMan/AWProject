@@ -18,6 +18,7 @@ function convertirFecha(fechaString) {
 function giveFormatQuest(result){
     let quests = new Array();
     result.forEach(e => {
+        if(e. cuerpo.length > 150) e.cuerpo = e.cuerpo.substring(0, 150) + "...";
         d = new Date(e.fecha);
         var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
         if (quests.length === 0) quests.push({
@@ -78,24 +79,27 @@ router.get('/showQuestions', function(request, response) {
 });
 
 router.get('/formQuest', function(request, response) {
-    response.render("newQuest", { error: null });
+    response.render("newQuest", { titulo:null, error: null });
 });
 
 router.post('/insertQuest', function(request, response) {
     var lbls = request.body.labels;
     lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
-    var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    DAOQuestt.insertQuest(response.locals.userId, request.body.title, request.body.info, date, lbls, function(err, result) {
-        if (err) {
-            console.log(err);
-            response.render("newQuest", { error: "Error interno de acceso a la base de datos" });
-        } else if (!result) {
-            response.render("newQuest", { error: "Ya existe esa pregunta" });
-        } else {
-            response.redirect("/");
-        }
-    });
+    if(lbls.length> 5) response.render("newQuest", { error: "Tienes un máximo de 5 tags." })
+    else{
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        DAOQuestt.insertQuest(response.locals.userId, request.body.title, request.body.info, date, lbls, function(err, result) {
+            if (err) {
+                console.log(err);
+                response.render("newQuest", {error: "Error interno de acceso a la base de datos" });
+            } else if (!result) {
+                response.render("newQuest", {error: "Ya existe esa pregunta" });
+            } else {
+                response.redirect("/");
+            }
+        });
+    } 
 });
 
 router.post('/search', function(request, response) {
