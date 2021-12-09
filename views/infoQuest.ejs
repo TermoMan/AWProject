@@ -3,47 +3,50 @@
 
 <head>
     <%- include('index') %>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/preguntas.css" media="screen">
 </head>
 
 <body class="p-3 mb-2 bg-dark text-light">
     <div>
-        <div class="float-container" id=title>
-            <div>
-                <% if(error) { %>
-                    <div class="errorMessage">
-                        <%=error%>
-                    </div>
-                <% } %>
-            </div>
-            <p id=title><%= answ.titulo %></p>
-            <p ><%= answ.cuerpo %></p>
-            <div class="tag-container">
-                <% answ.tags.forEach(el => { %>
-                    <% if(el!==null){ %>
-                    <div class="tag-child">
-                        <p class="tag-tit">
-                            <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
-                        </p>
-                    </div>
-                    <% } %>
-                <% }) %>
-            </div>
-            <div>
-                <p >Formulada el <%= answ.fecha %></p>
-                <p ><img src=<%="/uploads/" + answ.imagen%> class="imgR" height= "100" width= "100"></p>
-                <p ><%= answ.nickname %></p>
+        <% if(preg === null) {%>
+        <div>
+            <p id=title>LA PREGUNTA NO EXISTE</p>
+        </div>
+        <% } else {%>
+        <div class="float-container p" id=titlep>
+            <div >
+                <p id=titlep><%= preg.titulo %></p>
+                <p ><%= preg.cuerpo %></p>
+                <div class="tag-container">
+                    <% preg.tags.forEach(el => { %>
+                        <% if(el!==null){ %>
+                        <div class="tag-child">
+                            <p class="tag-tit">
+                                <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                            </p>
+                        </div>
+                        <% } %>
+                    <% }) %>
+                </div>
             </div>
             <div>
-                <p id="pregs"><%=answ.length %> Respuestas</p>
+                <p id="f">Formulada el <%= preg.fecha %></p>
+                <p ><img src=<%="/uploads/" + preg.imagen%> class="imgR" height= "100" width= "100"></p>
+                <p ><%= preg.nickname %></p>
+            </div>
+            <div>
+                <% if(preg.respuesta[preg.respuesta.length -1].respuesta === null) { %>
+                <% } else { %>
+                <p id="pregs"><%=preg.respuesta.length %> Respuestas</p>
                 <div>
                     <ul>
-                    <% answ.forEach(e => { %>
+                    <% preg.respuesta.forEach(e => { %>
                         <li>
-                            <div class="li-container">
-                                <div class="li-child">
+                            <div>
+                                <div>
                                     <p  class="li-body"><%= e.respuesta %></p>
                                 </div>
-                                <div class="li-child u">
+                                <div>
                                     <p class="li-tit c">Formulada el <%= e.fecha %></p>
                                     <p class="li-tit c"><img src=<%="/uploads/" + e.imagen%> class="imgR" height= "100" width= "100"></p>
                                     <p class="li-tit c"><%= e.nickname %></p>
@@ -52,18 +55,19 @@
                         </li>
                     <% }) %>
                     
-                  </ul>
+                </ul>
                 </div>
             </div>
+            <% }%>
             <form action="/index/answer" method="POST">
-                <label for="cuerpo">Tu Respuesta*</label>
+                <label for="cuerpo">Tu Respuesta</label>
                 <textarea maxlength="2000" class="form-control" style="height: 300px;" name="respuesta"></textarea>
                 <div class="float-child">
                     <button type="submit" class="btn btn-success">Publica Tu Respuesta</button>
                 </div>
             </div>
         </div>
-
+        <% } %>
     </div>
 </body>
 

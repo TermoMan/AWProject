@@ -15,10 +15,10 @@ function convertirFecha(fechaString) {
     return new Date(anio, mes, dia);
 }
 
-function giveFormatQuest(result){
+function giveFormatQuest(result, fc){
     let quests = new Array();
     result.forEach(e => {
-        if(e. cuerpo.length > 150) e.cuerpo = e.cuerpo.substring(0, 150) + "...";
+        if(fc && e. cuerpo.length > 150) e.cuerpo = e.cuerpo.substring(0, 150) + "...";
         d = new Date(e.fecha);
         var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
         if (quests.length === 0) quests.push({
@@ -62,10 +62,15 @@ function giveFormatAnsw(result){
             nickname: e.nickname,
             imagen: e.imagen,
             tags: [e.texto],
-            respuesta: [{respuesta: e.respuesta, puntuacion: e.puntuacion}]
-        });else{
+            respuesta: [{
+                respuesta: e.respuesta, 
+                puntuacion: e.puntuacion
+            }]
+        }); 
+        else{
             if(!quests[quests.length - 1].tags.includes(e.texto)) quests[quests.length - 1].tags.push(e.texto);
-            if(!quests[quests.length - 1].respuesta.includes({respuesta: e.texto, puntuacion: e.puntuacion})) quests[quests.length - 1].respuesta.push({respuesta: e.texto, puntuacion: e.puntuacion});
+            if(!quests[quests.length - 1].respuesta.some(elem => elem.respuesta === e.respuesta))
+                quests[quests.length - 1].respuesta.push({respuesta: e.respuesta, puntuacion: e.puntuacion}); 
         }
     });
     return quests;
@@ -94,7 +99,7 @@ router.get('/showQuestions', function(request, response) {
         } else if (!result) {
             response.render("allQuest", { quests, titulo, error: null });
         } else {
-            quests = giveFormatQuest(result);
+            quests = giveFormatQuest(result, true);
             response.render("allQuest", { quests, titulo, error: null });
         }
     });
@@ -114,7 +119,6 @@ router.post('/insertQuest', function(request, response) {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         DAOQuestt.insertQuest(response.locals.userId, request.body.title, request.body.info, date, lbls, function(err, result) {
             if (err) {
-                console.log(err);
                 response.render("newQuest", {error: "Error interno de acceso a la base de datos" });
             } else if (!result) {
                 response.render("newQuest", {error: "Ya existe esa pregunta" });
@@ -131,12 +135,11 @@ router.post('/search', function(request, response) {
     DAOQuestt.getQuestionsText(text, function(err, result) {
         let quests = new Array();
         if (err) {
-            console.log(err);
             response.render("index");
         } else if (!result) {
             response.render("index");
         } else {
-            quests = giveFormatQuest(result);
+            quests = giveFormatQuest(result, true);
             response.render("allQuest", { quests, titulo, error: null });
         }
     })
@@ -148,12 +151,11 @@ router.get('/notAnswer', function(request, response) {
     DAOQuestt.getQuestionsNotAnswer(function(err, result) {
         let quests = new Array();
         if (err) {
-            console.log(err);
             response.render("index");
         } else if (!result) {
             response.render("index");
         } else {
-            quests = giveFormatQuest(result);
+            quests = giveFormatQuest(result, true);
             response.render("allQuest", { quests, titulo, error: null });
         }
     })
@@ -166,12 +168,11 @@ router.get('/searchByTag/:tag', function(request, response) {
     DAOQuestt.getQuestions(function(err, result) {
         let quests = new Array();
         if (err) {
-            console.log(err);
             response.render("allQuest", { quests, titulo, error: "Error interno de acceso a la base de datos" });
         } else if (!result) {
             response.render("allQuest", { quests, titulo, error: null });
         } else {
-            quests = giveFormatQuest(result);
+            quests = giveFormatQuest(result, true);
             quests = findByTag(quests, tag);
             response.render("allQuest", { quests, titulo, error: null });
         }
@@ -181,19 +182,34 @@ router.get('/searchByTag/:tag', function(request, response) {
 
 router.get('/viewInfo/:tit', function(request, response) {
     let tit = request.params.tit;
-    DAOQuestt.getAnswers(tit, function(err, result) {
-        let answ = new Array();
+    DAOQuestt.get1Preg(tit, function(err, result) {
+        let preg = new Array();
         if (err) {
-            console.log(err);
-            response.render("allQuest", { answ,  error: "Error interno de acceso a la base de datos" });
+            next(err);
         } else if (!result) {
-            response.render("infoQuest", { answ,  error: null });
+            response.render("infoQuest", {preg});
         } else {
-            console.log(result);
-            answ = giveFormatAnsw(result);
-            console.log("========================================================================");
-            console.log(answ);
-            response.render("infoQuest", { answ,  error: null });
+            preg = giveFormatQuest(result, false);
+            preg = preg[preg.length -1];
+            DAOQuestt.getAnsw(preg.id, function(err, result){
+                if (err) {
+                    next(err);
+                }
+                else if(!result){
+                    preg.respuesta = new Array();
+                    response.render("infoQuest", {preg});
+                } 
+                else{
+                    resp = new Array();
+                    result.forEach(e => {
+                        resp.push({respuesta: e.respuesta, puntuacion: e.puntuacion, fecha: e.fecha, imagen: e.imagen, nickname: e.nickname});
+                    });
+                    preg.respuesta = resp;
+                    console.log(preg);
+                    console.log(preg.respuesta[preg.respuesta.length -1].respuesta);
+                    response.render("infoQuest", {preg});
+                }
+            });
         }
     });
 });

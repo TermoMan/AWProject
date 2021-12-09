@@ -4,6 +4,13 @@
     width: 50%;
 }
 
+.float-container.p {
+    padding: 20px;
+    margin: auto;
+    width: 50%;
+    text-align: left;
+}
+
 .float-child {
     width: 50%;
     float: left;
@@ -86,6 +93,13 @@ a:hover {
     font-size:170%;
 }
 
+#titlep{
+    padding-right: 20px;
+    font-size:170%;
+}
+ #f{
+     padding-top: 15%;
+ }
 .btn.btn-success{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 110%;
