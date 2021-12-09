@@ -169,6 +169,24 @@ class DAOQuest {
             }
         });
     }
+    insertAnsw(respuesta, userID, idp, date, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("INSERT INTO respuestas (respuesta, idusuario, idpregunta, puntuacion, fecha) VALUES (?,?,?,0,?)",
+                [respuesta, userID, idp, date,],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, true);
+                        }
+                    });
+            }
+        });
+    }
 }
 
 module.exports = DAOQuest;

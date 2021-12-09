@@ -49,34 +49,6 @@ function giveFormatQuest(result, fc){
     return quests;
 }
 
-function giveFormatAnsw(result){
-    let quests = new Array();
-    result.forEach(e => {
-        d = new Date(e.fecha);
-        var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-        if (quests.length === 0) quests.push({
-            id: e.idpregunta,
-            titulo: e.titulo,
-            cuerpo: e.cuerpo,
-            fecha: datestring,
-            nickname: e.nickname,
-            imagen: e.imagen,
-            tags: [e.texto],
-            respuesta: [{
-                respuesta: e.respuesta, 
-                puntuacion: e.puntuacion
-            }]
-        }); 
-        else{
-            if(!quests[quests.length - 1].tags.includes(e.texto)) quests[quests.length - 1].tags.push(e.texto);
-            if(!quests[quests.length - 1].respuesta.some(elem => elem.respuesta === e.respuesta))
-                quests[quests.length - 1].respuesta.push({respuesta: e.respuesta, puntuacion: e.puntuacion}); 
-        }
-    });
-    return quests;
-}
-
-
 function findByTag(quests, tag){
     let tagQuests = quests.filter(q => 
         q.tags.includes(tag));
@@ -94,8 +66,7 @@ router.get('/showQuestions', function(request, response) {
     DAOQuestt.getQuestions(function(err, result) {
         let quests = new Array();
         if (err) {
-            console.log(err);
-            response.render("allQuest", { quests, titulo, error: "Error interno de acceso a la base de datos" });
+            next(err);
         } else if (!result) {
             response.render("allQuest", { quests, titulo, error: null });
         } else {
@@ -119,7 +90,7 @@ router.post('/insertQuest', function(request, response) {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         DAOQuestt.insertQuest(response.locals.userId, request.body.title, request.body.info, date, lbls, function(err, result) {
             if (err) {
-                response.render("newQuest", {error: "Error interno de acceso a la base de datos" });
+                next(err);
             } else if (!result) {
                 response.render("newQuest", {error: "Ya existe esa pregunta" });
             } else {
@@ -143,6 +114,20 @@ router.post('/search', function(request, response) {
             response.render("allQuest", { quests, titulo, error: null });
         }
     })
+
+});
+
+router.post('/answer/:id', function(request, response) {
+    let idp = request.params.id;
+    var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    DAOQuestt.insertAnsw(request.body.respues, response.locals.userId, idp, date, function(err, result) {
+        if (err) {
+            next(err);
+        } else {
+            response.redirect("/index/showQuestions");
+        }
+    });
 
 });
 
@@ -202,16 +187,18 @@ router.get('/viewInfo/:tit', function(request, response) {
                 else{
                     resp = new Array();
                     result.forEach(e => {
-                        resp.push({respuesta: e.respuesta, puntuacion: e.puntuacion, fecha: e.fecha, imagen: e.imagen, nickname: e.nickname});
+                        d = new Date(e.fecha);
+                        var date = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                        resp.push({respuesta: e.respuesta, puntuacion: e.puntuacion, fecha: date, imagen: e.imagen, nickname: e.nickname});
                     });
                     preg.respuesta = resp;
-                    console.log(preg);
-                    console.log(preg.respuesta[preg.respuesta.length -1].respuesta);
                     response.render("infoQuest", {preg});
                 }
             });
         }
     });
 });
+
+
 
 module.exports = router;

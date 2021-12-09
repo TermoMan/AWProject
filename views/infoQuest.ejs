@@ -59,13 +59,13 @@
                 </div>
             </div>
             <% }%>
-            <form action="/index/answer" method="POST">
+            <form action="/index/answer/<%= preg.id%>" method="POST">
                 <label for="cuerpo">Tu Respuesta</label>
-                <textarea maxlength="2000" class="form-control" style="height: 300px;" name="respuesta"></textarea>
+                <textarea maxlength="2000" class="form-control" style="height: 300px;" name="respues"></textarea>
                 <div class="float-child">
                     <button type="submit" class="btn btn-success">Publica Tu Respuesta</button>
                 </div>
-            </div>
+            </form>
         </div>
         <% } %>
     </div>
