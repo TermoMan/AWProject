@@ -49,6 +49,29 @@ function giveFormatQuest(result){
     return quests;
 }
 
+function giveFormatAnsw(result){
+    let quests = new Array();
+    result.forEach(e => {
+        d = new Date(e.fecha);
+        var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+        if (quests.length === 0) quests.push({
+            id: e.idpregunta,
+            titulo: e.titulo,
+            cuerpo: e.cuerpo,
+            fecha: datestring,
+            nickname: e.nickname,
+            imagen: e.imagen,
+            tags: [e.texto],
+            respuesta: [{respuesta: e.respuesta, puntuacion: e.puntuacion}]
+        });else{
+            if(!quests[quests.length - 1].tags.includes(e.texto)) quests[quests.length - 1].tags.push(e.texto);
+            if(!quests[quests.length - 1].respuesta.includes({respuesta: e.texto, puntuacion: e.puntuacion})) quests[quests.length - 1].respuesta.push({respuesta: e.texto, puntuacion: e.puntuacion});
+        }
+    });
+    return quests;
+}
+
+
 function findByTag(quests, tag){
     let tagQuests = quests.filter(q => 
         q.tags.includes(tag));
@@ -154,6 +177,25 @@ router.get('/searchByTag/:tag', function(request, response) {
         }
     });
 
+});
+
+router.get('/viewInfo/:tit', function(request, response) {
+    let tit = request.params.tit;
+    DAOQuestt.getAnswers(tit, function(err, result) {
+        let answ = new Array();
+        if (err) {
+            console.log(err);
+            response.render("allQuest", { answ,  error: "Error interno de acceso a la base de datos" });
+        } else if (!result) {
+            response.render("infoQuest", { answ,  error: null });
+        } else {
+            console.log(result);
+            answ = giveFormatAnsw(result);
+            console.log("========================================================================");
+            console.log(answ);
+            response.render("infoQuest", { answ,  error: null });
+        }
+    });
 });
 
 module.exports = router;

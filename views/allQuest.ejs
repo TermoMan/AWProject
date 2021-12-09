@@ -8,7 +8,6 @@
     <body class="p-3 mb-2 bg-dark text-light">
         <div>
             <div>
-
                 <% if(error) { %>
                     <div class="errorMessage">
                         <%=error%>
@@ -38,7 +37,7 @@
                         <li>
                             <div class="li-container">
                                 <div class="li-child">
-                                    <p class="li-tit"><%= e.titulo %></p>
+                                    <p class="li-tit"><a class="tgs" href="/index/viewInfo/<%=e.titulo%>" id="<%e.titulo%>"><%= e.titulo %></a> </p>
                                     <p  class="li-body"><%= e.cuerpo %></p>
                                     <div class="tag-container">
                                         <% e.tags.forEach(el => { %>

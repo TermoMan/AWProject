@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('index') %>
+</head>
+
+<body class="p-3 mb-2 bg-dark text-light">
+    <div>
+        <div class="float-container" id=title>
+            <div>
+                <% if(error) { %>
+                    <div class="errorMessage">
+                        <%=error%>
+                    </div>
+                <% } %>
+            </div>
+            <p id=title><%= answ.titulo %></p>
+            <p ><%= answ.cuerpo %></p>
+            <div class="tag-container">
+                <% answ.tags.forEach(el => { %>
+                    <% if(el!==null){ %>
+                    <div class="tag-child">
+                        <p class="tag-tit">
+                            <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                        </p>
+                    </div>
+                    <% } %>
+                <% }) %>
+            </div>
+            <div>
+                <p >Formulada el <%= answ.fecha %></p>
+                <p ><img src=<%="/uploads/" + answ.imagen%> class="imgR" height= "100" width= "100"></p>
+                <p ><%= answ.nickname %></p>
+            </div>
+            <div>
+                <p id="pregs"><%=answ.length %> Respuestas</p>
+                <div>
+                    <ul>
+                    <% answ.forEach(e => { %>
+                        <li>
+                            <div class="li-container">
+                                <div class="li-child">
+                                    <p  class="li-body"><%= e.respuesta %></p>
+                                </div>
+                                <div class="li-child u">
+                                    <p class="li-tit c">Formulada el <%= e.fecha %></p>
+                                    <p class="li-tit c"><img src=<%="/uploads/" + e.imagen%> class="imgR" height= "100" width= "100"></p>
+                                    <p class="li-tit c"><%= e.nickname %></p>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                    
+                  </ul>
+                </div>
+            </div>
+            <form action="/index/answer" method="POST">
+                <label for="cuerpo">Tu Respuesta*</label>
+                <textarea maxlength="2000" class="form-control" style="height: 300px;" name="respuesta"></textarea>
+                <div class="float-child">
+                    <button type="submit" class="btn btn-success">Publica Tu Respuesta</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
