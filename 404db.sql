@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-12-2021 a las 18:26:55
+-- Tiempo de generación: 10-12-2021 a las 12:55:59
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `preguntas` (
   `idpregunta` int(100) NOT NULL,
   `idusuario` int(100) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `cuerpo` varchar(1000) NOT NULL,
+  `titulo` varchar(200) NOT NULL,
+  `cuerpo` varchar(2000) NOT NULL,
   `fecha` date NOT NULL,
   `puntos` int(10) NOT NULL DEFAULT 0,
   `visitas` int(10) NOT NULL DEFAULT 0
@@ -46,7 +46,9 @@ INSERT INTO `preguntas` (`idpregunta`, `idusuario`, `titulo`, `cuerpo`, `fecha`,
 (13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 0),
 (14, 2, 'pssssssss', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-10-06', 0, 0),
 (15, 2, 'saaaaaaaaaa', 'asssssssasas', '2021-08-05', 0, 0),
-(16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 0);
+(16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 0),
+(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 0),
+(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -59,15 +61,16 @@ CREATE TABLE `respuestas` (
   `respuesta` varchar(1000) NOT NULL,
   `idusuario` int(100) NOT NULL,
   `idpregunta` int(100) NOT NULL,
-  `puntuacion` int(10) NOT NULL DEFAULT 0
+  `puntuacion` int(10) NOT NULL DEFAULT 0,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `respuestas`
 --
 
-INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntuacion`) VALUES
-(1, 'a', 1, 1, 0);
+INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntuacion`, `fecha`) VALUES
+(2, 'adios', 1, 13, 0, '2021-12-10');
 
 -- --------------------------------------------------------
 
@@ -86,7 +89,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('I0vxrE0MPYBaYjfZopA_i-bDpYDVg6dO', 1638897632, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"hola\",\"password\":\"hola\",\"name\":\"hola\",\"userId\":2,\"image\":\"kuroko.png\",\"date\":\"2021-12-04T23:00:00.000Z\",\"reputation\":1}');
+('8PaEV6IrCfFeh43ySrzTyfWcMnl4RuO3', 1639223724, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
+('NX78nouTkbPd9oCGUOuKHabalJOsbtTv', 1639019497, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
+('z83AHydZIdfsaBMvL-shsKqIdWvk5eTD', 1639080241, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
@@ -109,7 +114,9 @@ INSERT INTO `tagpreg` (`idpregunta`, `idtag`) VALUES
 (15, 27),
 (15, 28),
 (16, 27),
-(16, 28);
+(16, 28),
+(17, 32),
+(18, 33);
 
 -- --------------------------------------------------------
 
@@ -127,8 +134,10 @@ CREATE TABLE `tags` (
 --
 
 INSERT INTO `tags` (`idtag`, `texto`) VALUES
+(32, '150'),
 (27, 'jaja'),
-(28, 'pepeeeee');
+(28, 'pepeeeee'),
+(33, 'seria');
 
 -- --------------------------------------------------------
 
@@ -220,19 +229,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `idpregunta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idpregunta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `idtag` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idtag` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`

@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
-const usersController = require("../controllers/userController");
+//const usersController = require("../controllers/userController");
 
 router.get("/login", function(request, response) {
     response.render("login", { error: null });
