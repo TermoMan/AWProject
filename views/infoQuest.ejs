@@ -3,7 +3,11 @@
 
 <head>
     <%- include('index') %>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/preguntas.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/preguntainfo.css" media="screen">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@200&family=IBM+Plex+Mono:wght@200&display=swap" rel="stylesheet">
 </head>
 
 <body class="p-3 mb-2 bg-dark text-light">
@@ -13,55 +17,56 @@
             <p id=title>LA PREGUNTA NO EXISTE</p>
         </div>
         <% } else {%>
-        <div class="float-container p" id=titlep>
-            <div >
-                <p id=titlep><%= preg.titulo %></p>
-                <p ><%= preg.cuerpo %></p>
-                <div class="tag-container">
-                    <% preg.tags.forEach(el => { %>
-                        <% if(el!==null){ %>
-                        <div class="tag-child">
-                            <p class="tag-tit">
-                                <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
-                            </p>
+        <div>
+            <div class="container">
+                <div class="row"  id=preg>
+                    <div class="col" id="preg-info">
+                        <div id=textopreg>
+                            <p id=titlep><%= preg.titulo %></p>
+                            <p id = pregcuerpo><%= preg.cuerpo %></p>
                         </div>
-                        <% } %>
-                    <% }) %>
+                        <div class="tag-container">
+                            <% preg.tags.forEach(el => { %>
+                                <% if(el!==null){ %>
+                                <div class="tag-child">
+                                    <p class="tag-tit">
+                                        <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                                    </p>
+                                </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div class="col" id="usuario-preg-info">
+                        <p id="f">Formulada el <%= preg.fecha %></p>
+                        <p ><img src=<%="/uploads/" + preg.imagen%> class="imgR" height= "100" width= "100"></p>
+                        <p ><%= preg.nickname %></p>
+                    </div>
                 </div>
             </div>
-            <div>
-                <p id="f">Formulada el <%= preg.fecha %></p>
-                <p ><img src=<%="/uploads/" + preg.imagen%> class="imgR" height= "100" width= "100"></p>
-                <p ><%= preg.nickname %></p>
-            </div>
-            <div>
+            <div class="container" id=respuestas>
                 <% if(preg.respuesta[preg.respuesta.length -1].respuesta === null) { %>
                 <% } else { %>
                 <p id="pregs"><%=preg.respuesta.length %> Respuestas</p>
-                <div>
-                    <ul>
+                <div class="col">
                     <% preg.respuesta.forEach(e => { %>
-                        <li>
-                            <div>
-                                <div>
+                        <div class="row" id=respuesta>
+                            <div class="col">
                                     <p  class="li-body"><%= e.respuesta %></p>
-                                </div>
-                                <div>
+                            </div>
+                            <div class="col" id=user>
                                     <p class="li-tit c">Formulada el <%= e.fecha %></p>
                                     <p class="li-tit c"><img src=<%="/uploads/" + e.imagen%> class="imgR" height= "100" width= "100"></p>
                                     <p class="li-tit c"><%= e.nickname %></p>
-                                </div>
                             </div>
-                        </li>
+                        </div>
                     <% }) %>
-                    
-                </ul>
                 </div>
             </div>
             <% }%>
             <form action="/index/answer/<%= preg.id%>" method="POST">
                 <label for="cuerpo">Tu Respuesta</label>
-                <textarea maxlength="2000" class="form-control" style="height: 300px;" name="respues"></textarea>
+                <textarea maxlength="2000" class="form-control" style="height: 150px;" name="respues"></textarea>
                 <div class="float-child">
                     <button type="submit" class="btn btn-success">Publica Tu Respuesta</button>
                 </div>

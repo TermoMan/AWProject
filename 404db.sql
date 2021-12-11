@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-12-2021 a las 12:55:59
+-- Tiempo de generación: 11-12-2021 a las 17:49:45
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -70,7 +70,9 @@ CREATE TABLE `respuestas` (
 --
 
 INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntuacion`, `fecha`) VALUES
-(2, 'adios', 1, 13, 0, '2021-12-10');
+(2, 'adios', 1, 13, 0, '2021-12-10'),
+(3, 'mirespuesta', 1, 18, 0, '2021-12-11'),
+(4, 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en la parte superior izquierda y la identificación del usuario situada en la parte superior derecha. 4 La identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará la página de perfil de usuario (figura 10). El menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica su funcionamiento. Debajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las palabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena la búsqueda.', 1, 18, 0, '2021-12-11');
 
 -- --------------------------------------------------------
 
@@ -89,9 +91,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('8PaEV6IrCfFeh43ySrzTyfWcMnl4RuO3', 1639223724, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
-('NX78nouTkbPd9oCGUOuKHabalJOsbtTv', 1639019497, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
-('z83AHydZIdfsaBMvL-shsKqIdWvk5eTD', 1639080241, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
+('JQX_Yi4SV4cDdu7-uuMkiYXFxJmog_5a', 1639327765, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
@@ -174,6 +174,37 @@ INSERT INTO `usuario` (`idusuario`, `correo`, `contraseña`, `nickname`, `imagen
 (11, 'dfdffd', '1Qqqqq', 'fdfdf', 'nico.png', '2021-12-06', 1, 1),
 (12, 'sasasa', '1Qqqqqq', 'aas', 'roberto.png', '2021-12-06', 1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `votos-preguntas`
+--
+
+CREATE TABLE `votos-preguntas` (
+  `idusuario` int(11) NOT NULL,
+  `idpregunta` int(11) NOT NULL,
+  `positivo` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `votos-preguntas`
+--
+
+INSERT INTO `votos-preguntas` (`idusuario`, `idpregunta`, `positivo`) VALUES
+(1, 13, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `votos-respuestas`
+--
+
+CREATE TABLE `votos-respuestas` (
+  `idusuario` int(11) NOT NULL,
+  `idrespuesta` int(11) NOT NULL,
+  `positivo` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
@@ -222,6 +253,20 @@ ALTER TABLE `usuario`
   ADD UNIQUE KEY `correo` (`correo`);
 
 --
+-- Indices de la tabla `votos-preguntas`
+--
+ALTER TABLE `votos-preguntas`
+  ADD KEY `usuario_voto_preg` (`idusuario`),
+  ADD KEY `voto_preg` (`idpregunta`);
+
+--
+-- Indices de la tabla `votos-respuestas`
+--
+ALTER TABLE `votos-respuestas`
+  ADD KEY `usuario_voto_res` (`idusuario`),
+  ADD KEY `voto_res` (`idrespuesta`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -235,7 +280,7 @@ ALTER TABLE `preguntas`
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tags`
@@ -272,6 +317,20 @@ ALTER TABLE `respuestas`
 ALTER TABLE `tagpreg`
   ADD CONSTRAINT `idpregunta_tag-preg_fk` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`),
   ADD CONSTRAINT `idtag_tag-preg_fk` FOREIGN KEY (`idtag`) REFERENCES `tags` (`idtag`);
+
+--
+-- Filtros para la tabla `votos-preguntas`
+--
+ALTER TABLE `votos-preguntas`
+  ADD CONSTRAINT `usuario_voto_preg` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `voto_preg` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `votos-respuestas`
+--
+ALTER TABLE `votos-respuestas`
+  ADD CONSTRAINT `usuario_voto_res` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `voto_res` FOREIGN KEY (`idrespuesta`) REFERENCES `respuestas` (`idrespuesta`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
