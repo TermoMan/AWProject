@@ -61,7 +61,18 @@ app.get("/", function(request, response, next) {
 app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 
+app.use(function (request, response, next) {
+    response.status(404);
+    response.render("error", { status: 404, message: "Página no encontrada" });
+  });
 
+  app.use(function (error, request, response, next) {
+    response.status(500);
+    response.render("error", {
+      status: 500,
+      message: "Error interno del servidor",
+    });
+  });
 
 
 app.listen(3000, function(err) {
