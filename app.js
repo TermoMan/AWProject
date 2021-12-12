@@ -52,7 +52,6 @@ app.use(function(request, response, next) {
 
 app.get("/", function(request, response, next) {
     if (request.session.email) {
-
         response.redirect("/index");
     } else {
         response.redirect("/users/login");
