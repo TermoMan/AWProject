@@ -2,6 +2,7 @@ var path = require('path');
 const DAOQuest = require("../model/DAOQuest");
 const fs = require('fs');
 const DAOQuestt = new DAOQuest();
+const medals = require('../medals.js');
 
 function convertirFecha(fechaString) {
     var fechaSp = fechaString.split("-");
@@ -24,6 +25,8 @@ function giveFormatQuest(result, fc){
             titulo: e.titulo,
             cuerpo: e.cuerpo,
             fecha: datestring,
+            puntos: e.puntos,
+            visitas: e.visitas,
             nickname: e.nickname,
             imagen: e.imagen,
             tags: [e.texto]
@@ -149,6 +152,7 @@ module.exports={
     },
     viewQuest(request, response) {
         let tit = request.params.tit;
+        var visitas;
         DAOQuestt.get1Preg(tit, function(err, result) {
             let preg = new Array();
             if (err) {
@@ -158,6 +162,7 @@ module.exports={
             } else {
                 preg = giveFormatQuest(result, false);
                 preg = preg[preg.length -1];
+                preg.visitas = preg.visitas + 1;
                 DAOQuestt.getAnsw(preg.id, function(err, result){
                     if (err) {
                         next(err);
@@ -177,6 +182,23 @@ module.exports={
                         response.render("infoQuest", {preg});
                     }
                 });
+                DAOQuestt.increaseVisits(preg.id, preg.visitas, function(err){
+                    if(err) {
+                        console.log(err.message);
+                    } else{
+                        console.log("Visitas aumentadas con éxito");
+                    }
+                })
+                /*let idmedal;
+                if(idmedal = medals.getMedalId(preg.visitas, "visitas"))
+                DAOQuestt.updateMedalQuestion(preg.id, idmedal, function(err){
+                    if(err) {
+                        console.log(err.message);
+                    } else{
+                        console.log("Medalla actualizada con éxito");
+                    }
+                })*/
+
             }
         });
     }

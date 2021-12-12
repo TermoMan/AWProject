@@ -31,7 +31,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.titulo = ?", [tit],
+                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, pr.visitas, pr.puntos, t.texto, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.titulo = ?", [tit],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
@@ -132,10 +132,11 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario WHERE pr.titulo LIKE '%" + text +"%' OR pr.cuerpo LIKE '%" + text +"%'", [text],
+                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario WHERE pr.titulo LIKE concat('%', ?, '%') OR pr.cuerpo LIKE concat('%', ?, '%')", [text, text],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
+                            alert("inyeccion");
                             callback(new Error("Error de acceso a la base de datos"));
                         } else {
                             if (rows.length === 0) {
@@ -187,6 +188,45 @@ class DAOQuest {
             }
         });
     }
+
+    increaseVisits(idpregunta, numVisitas, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("UPDATE preguntas SET visitas = ? WHERE idpregunta = ?",
+                [numVisitas, idpregunta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, true);
+                        }
+                    });
+            }
+        });
+    }
+
+    updateMedalQuestion(idpregunta, idmedalla, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("IF EXISTS(select * from medallaspreg where id=? AND) update medallaspreg set idmedalla=? where id=? ELSEinsert into medallaspreg values(?, ?);",
+                [idmedalla, idpregunta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, true);
+                        }
+                    });
+            }
+        });
+    }
+
 }
 
 module.exports = DAOQuest;

@@ -21,20 +21,26 @@
             <div class="container">
                 <div class="row"  id=preg>
                     <div class="col" id="preg-info">
-                        <div id=textopreg>
-                            <p id=titlep><%= preg.titulo %></p>
-                            <p id = pregcuerpo><%= preg.cuerpo %></p>
+                        <div class=row>
+                            <div id=textopreg>
+                                <p id=titlep><%= preg.titulo %></p>
+                                <p id = pregcuerpo><%= preg.cuerpo %></p>
+                            </div>
+                            <div class="tag-container">
+                                <% preg.tags.forEach(el => { %>
+                                    <% if(el!==null){ %>
+                                    <div class="tag-child">
+                                        <p class="tag-tit">
+                                            <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                                        </p>
+                                    </div>
+                                    <% } %>
+                                <% }) %>
+                            </div>
                         </div>
-                        <div class="tag-container">
-                            <% preg.tags.forEach(el => { %>
-                                <% if(el!==null){ %>
-                                <div class="tag-child">
-                                    <p class="tag-tit">
-                                        <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
-                                    </p>
-                                </div>
-                                <% } %>
-                            <% }) %>
+                        <div class="row">
+                            <p id=pregVisitas>Visitas: <%= preg.visitas%> </p>
+                            <p id=pregPuntos>Puntos: <%= preg.puntos%></p>
                         </div>
                     </div>
                     <div class="col" id="usuario-preg-info">
