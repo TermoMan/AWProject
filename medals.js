@@ -60,7 +60,23 @@ function getMedalVotosRes(num){
 
 }
 
+//calculamos antigua y nueva medlla y retornamos la nueva medalla con la accion correspondiente
+function actionmedal(dataOld, dataNew, tipo){
+    let oldMedal = getMedalId(dataOld, tipo);
+    let newMedal = getMedalId(dataNew, tipo);
+    let action;
+    
+    if(oldMedal != newMedal){
+        if(newMedal === 0) action = "delete";
+        if(oldMedal === 0) action = "insert";
+        else action = "update";
+    }
+
+    return {action: action,idMedal: newMedal};
+}
+
 module.exports = {
     getMedalId: getMedalId,
-    array: medals
+    array: medals,
+    actionmedal: actionmedal
 }

@@ -3,6 +3,8 @@ const DAOQuest = require("../model/DAOQuest");
 const fs = require('fs');
 const DAOQuestt = new DAOQuest();
 const medals = require('../medals.js');
+const DAOMedalss = require("../model/DAOMedals")
+const DAOMedals = new DAOMedalss;
 
 function convertirFecha(fechaString) {
     var fechaSp = fechaString.split("-");
@@ -54,6 +56,34 @@ function findByTag(quests, tag){
     let tagQuests = quests.filter(q => 
         q.tags.includes(tag));
     return tagQuests;
+}
+
+function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
+
+    let accion = medals.actionmedal(visitasAnt, visitasNew, tipo);
+
+    if(accion.action === "insert"){
+        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+    if(accion.action === "update"){
+        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+    if(accion.action = "delete"){
+        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+
 }
 
 module.exports={
@@ -153,16 +183,23 @@ module.exports={
     viewQuest(request, response) {
         let tit = request.params.tit;
         var visitas;
+        //obetener toda la informacion de una pregunta 
         DAOQuestt.get1Preg(tit, function(err, result) {
             let preg = new Array();
+
             if (err) {
                 next(err);
+
             } else if (!result) {
                 response.render("infoQuest", {preg});
             } else {
+
                 preg = giveFormatQuest(result, false);
                 preg = preg[preg.length -1];
+                //guardamos el numero de visitas antiguo
+                let visitasAnt = preg.visitas;
                 preg.visitas = preg.visitas + 1;
+
                 DAOQuestt.getAnsw(preg.id, function(err, result){
                     if (err) {
                         next(err);
@@ -182,6 +219,7 @@ module.exports={
                         response.render("infoQuest", {preg});
                     }
                 });
+                //actualizamos visitas en la bbdd
                 DAOQuestt.increaseVisits(preg.id, preg.visitas, function(err){
                     if(err) {
                         console.log(err.message);
@@ -189,16 +227,13 @@ module.exports={
                         console.log("Visitas aumentadas con éxito");
                     }
                 })
-                /*let idmedal;
-                if(idmedal = medals.getMedalId(preg.visitas, "visitas"))
-                DAOQuestt.updateMedalQuestion(preg.id, idmedal, function(err){
-                    if(err) {
+                //en este punto ya se ha añadido una visita y vamos a verificar si hay que cambiar su medalla
+                updateMedalQuestions(visitasAnt, preg.visitas, "visitas", preg.id, function(err){
+                    if(err){
                         console.log(err.message);
-                    } else{
-                        console.log("Medalla actualizada con éxito");
-                    }
-                })*/
-
+                    } else console.log("Medalla actualizada con éxito");
+                })
+                
             }
         });
     }

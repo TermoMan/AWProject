@@ -1,8 +1,8 @@
 const getpool = require("../config.js");
 const pool = getpool();
 
-let queries = ["SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario",
-"SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario WHERE pr.titulo LIKE '%?%' OR pr.cuerpo LIKE '%?%'"]
+//let queries = ["SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario",
+//"SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, t.texto, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario WHERE pr.titulo LIKE '%?%' OR pr.cuerpo LIKE '%?%'"]
 
 class DAOQuest {
     getQuestions(callback) {
@@ -196,25 +196,6 @@ class DAOQuest {
             }else {
                 connection.query("UPDATE preguntas SET visitas = ? WHERE idpregunta = ?",
                 [numVisitas, idpregunta],
-                    function(err, rows) {
-                        connection.release(); // devolver al pool la conexión
-                        if (err) {
-                            callback(new Error("Error de acceso a la base de datos"));
-                        } else {
-                            callback(null, true);
-                        }
-                    });
-            }
-        });
-    }
-
-    updateMedalQuestion(idpregunta, idmedalla, callback){
-        pool.getConnection(function(err, connection) {
-            if (err) {
-                callback(new Error("Error pool"));
-            }else {
-                connection.query("IF EXISTS(select * from medallaspreg where id=? AND) update medallaspreg set idmedalla=? where id=? ELSEinsert into medallaspreg values(?, ?);",
-                [idmedalla, idpregunta],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
