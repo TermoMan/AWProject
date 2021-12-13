@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-12-2021 a las 17:49:45
+-- Tiempo de generación: 13-12-2021 a las 14:26:44
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -20,6 +20,35 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `404db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medallaspreg`
+--
+
+CREATE TABLE `medallaspreg` (
+  `idpregunta` int(11) NOT NULL,
+  `idmedalla` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `medallaspreg`
+--
+
+INSERT INTO `medallaspreg` (`idpregunta`, `idmedalla`) VALUES
+(16, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medallasres`
+--
+
+CREATE TABLE `medallasres` (
+  `idrespuesta` int(11) NOT NULL,
+  `idmedalla` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42,13 +71,13 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`idpregunta`, `idusuario`, `titulo`, `cuerpo`, `fecha`, `puntos`, `visitas`) VALUES
-(1, 1, 'a', 'a', '2021-11-23', 0, 0),
-(13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 0),
-(14, 2, 'pssssssss', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-10-06', 0, 0),
-(15, 2, 'saaaaaaaaaa', 'asssssssasas', '2021-08-05', 0, 0),
-(16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 0),
-(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 0),
-(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 0, 0);
+(1, 1, 'a', 'a', '2021-11-23', 0, 1),
+(13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 6),
+(14, 2, 'pssssssss', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-10-06', 0, 4),
+(15, 2, 'saaaaaaaaaa', 'asssssssasas', '2021-08-05', 0, 2),
+(16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 4),
+(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 1),
+(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -91,7 +120,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('JQX_Yi4SV4cDdu7-uuMkiYXFxJmog_5a', 1639327765, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
+('sVoX5agMO8236wJ8fXopPs03LCJurdo6', 1639425358, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
+('tHcDZrNalKK8TOYiSO5etWzwizY1yUmN', 1639488321, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
@@ -177,29 +207,29 @@ INSERT INTO `usuario` (`idusuario`, `correo`, `contraseña`, `nickname`, `imagen
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `votos-preguntas`
+-- Estructura de tabla para la tabla `votospreg`
 --
 
-CREATE TABLE `votos-preguntas` (
+CREATE TABLE `votospreg` (
   `idusuario` int(11) NOT NULL,
   `idpregunta` int(11) NOT NULL,
   `positivo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `votos-preguntas`
+-- Volcado de datos para la tabla `votospreg`
 --
 
-INSERT INTO `votos-preguntas` (`idusuario`, `idpregunta`, `positivo`) VALUES
+INSERT INTO `votospreg` (`idusuario`, `idpregunta`, `positivo`) VALUES
 (1, 13, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `votos-respuestas`
+-- Estructura de tabla para la tabla `votosres`
 --
 
-CREATE TABLE `votos-respuestas` (
+CREATE TABLE `votosres` (
   `idusuario` int(11) NOT NULL,
   `idrespuesta` int(11) NOT NULL,
   `positivo` tinyint(1) NOT NULL
@@ -208,6 +238,18 @@ CREATE TABLE `votos-respuestas` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `medallaspreg`
+--
+ALTER TABLE `medallaspreg`
+  ADD KEY `preg-medalla` (`idpregunta`);
+
+--
+-- Indices de la tabla `medallasres`
+--
+ALTER TABLE `medallasres`
+  ADD KEY `res-medalla` (`idrespuesta`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -253,16 +295,16 @@ ALTER TABLE `usuario`
   ADD UNIQUE KEY `correo` (`correo`);
 
 --
--- Indices de la tabla `votos-preguntas`
+-- Indices de la tabla `votospreg`
 --
-ALTER TABLE `votos-preguntas`
+ALTER TABLE `votospreg`
   ADD KEY `usuario_voto_preg` (`idusuario`),
   ADD KEY `voto_preg` (`idpregunta`);
 
 --
--- Indices de la tabla `votos-respuestas`
+-- Indices de la tabla `votosres`
 --
-ALTER TABLE `votos-respuestas`
+ALTER TABLE `votosres`
   ADD KEY `usuario_voto_res` (`idusuario`),
   ADD KEY `voto_res` (`idrespuesta`);
 
@@ -299,6 +341,18 @@ ALTER TABLE `usuario`
 --
 
 --
+-- Filtros para la tabla `medallaspreg`
+--
+ALTER TABLE `medallaspreg`
+  ADD CONSTRAINT `preg-medalla` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `medallasres`
+--
+ALTER TABLE `medallasres`
+  ADD CONSTRAINT `res-medalla` FOREIGN KEY (`idrespuesta`) REFERENCES `respuestas` (`idrespuesta`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
@@ -319,16 +373,16 @@ ALTER TABLE `tagpreg`
   ADD CONSTRAINT `idtag_tag-preg_fk` FOREIGN KEY (`idtag`) REFERENCES `tags` (`idtag`);
 
 --
--- Filtros para la tabla `votos-preguntas`
+-- Filtros para la tabla `votospreg`
 --
-ALTER TABLE `votos-preguntas`
+ALTER TABLE `votospreg`
   ADD CONSTRAINT `usuario_voto_preg` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `voto_preg` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `votos-respuestas`
+-- Filtros para la tabla `votosres`
 --
-ALTER TABLE `votos-respuestas`
+ALTER TABLE `votosres`
   ADD CONSTRAINT `usuario_voto_res` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `voto_res` FOREIGN KEY (`idrespuesta`) REFERENCES `respuestas` (`idrespuesta`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

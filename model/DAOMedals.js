@@ -2,13 +2,13 @@ const getpool = require("../config.js");
 const pool = getpool();
 
 class DAOMedals {
-    updateMedalQuestion(idpregunta, idmedalla, callback){
+    updateMedalQuestion(idpregunta, idmedalla, idOldMedal, callback){
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error pool"));
             }else {
                 connection.query("UPDATE medallaspreg SET idmedalla=? WHERE idpregunta=? AND idmedalla = ?",
-                [idmedalla, idpregunta, idmedalla],
+                [idmedalla, idpregunta, idOldMedal],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {

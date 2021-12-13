@@ -72,7 +72,7 @@ function actionmedal(dataOld, dataNew, tipo){
         else action = "update";
     }
 
-    return {action: action,idMedal: newMedal};
+    return {action: action,idMedal: newMedal, idOldMedal:oldMedal};
 }
 
 module.exports = {

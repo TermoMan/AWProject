@@ -63,21 +63,21 @@ function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
     let accion = medals.actionmedal(visitasAnt, visitasNew, tipo);
 
     if(accion.action === "insert"){
-        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+        DAOMedals.insertMedalQuestion(preg, accion.idMedal, function(err){
             if(err) {
                 callback(err);
             }
         });
     }
     if(accion.action === "update"){
-        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+        DAOMedals.updateMedalQuestion(preg, accion.idMedal, accion.idOldMedal, function(err){
             if(err) {
                 callback(err);
             }
         });
     }
-    if(accion.action = "delete"){
-        DAOMedals.updateMedalQuestion(preg, accion.idMedal, function(err){
+    if(accion.action === "delete"){
+        DAOMedals.deleteMedalQuestion(preg, accion.idMedal, function(err){
             if(err) {
                 callback(err);
             }
@@ -226,14 +226,15 @@ module.exports={
                         console.log(err.message);
                     } else{
                         console.log("Visitas aumentadas con éxito");
+                        //en este punto ya se ha añadido una visita y vamos a verificar si hay que cambiar su medalla
+                        updateMedalQuestions(visitasAnt, preg.visitas, "visitas", preg.id, function(err){
+                        if(err){
+                            console.log(err.message);
+                        } else console.log("Medalla actualizada con éxito");
+                })
                     }
                 })
-                //en este punto ya se ha añadido una visita y vamos a verificar si hay que cambiar su medalla
-                updateMedalQuestions(visitasAnt, preg.visitas, "visitas", preg.id, function(err){
-                    if(err){
-                        console.log(err.message);
-                    } else console.log("Medalla actualizada con éxito");
-                })
+
                 
             }
         });
