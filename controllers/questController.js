@@ -2,8 +2,10 @@ var path = require('path');
 const DAOQuest = require("../model/DAOQuest");
 const fs = require('fs');
 const DAOQuestt = new DAOQuest();
+const DAOUserr = new DAOUser();
 const medals = require('../medals.js');
-const DAOMedalss = require("../model/DAOMedals")
+const DAOMedalss = require("../model/DAOMedals");
+const DAOUser = require('../model/DAOUser');
 const DAOMedals = new DAOMedalss;
 
 function convertirFecha(fechaString) {
@@ -50,6 +52,44 @@ function giveFormatQuest(result, fc){
         return convertirFecha(b.fecha) - convertirFecha(a.fecha);
     });
     return quests;
+}
+
+function giveFormatUser(result){
+    let users = new Array();
+    result.forEach(e=>{
+        users.push({id: e.idusuario, name: e.nickname, image: e.image, rep: e.reputacion})
+    });
+    return users;
+}
+
+function getCommonTag(result){
+    let elems = new Array();
+    let elems2 = new Array();
+    let count = new Array();
+    result.forEach(e=>{
+        if(e.tags!==null){
+            e.tags.forEach(el=>{
+                elems.push(el);
+            });
+        }
+    });
+    elems.sort((a,b)=>{
+        if (a == b) return 0;
+        else if (a < b) return -1;
+        else return 1;
+    });
+    let tag = elems.shift();
+    elems2.push(tag);
+    count.push(1);
+    elems.forEach(ele=>{
+        if(ele===tag) count[count.lenght - 1] += 1;
+        else {
+            tag = elems.shift();
+            elems2.push(tag);
+            count.push(1);
+        }
+    });
+    //Por ahora tengo un array con los tgas y otro con las veces que se repite cada uno
 }
 
 function findByTag(quests, tag){
@@ -235,6 +275,32 @@ module.exports={
                     }
                 })
 
+                
+            }
+        });
+    },
+    viewUsers(request, response){
+        DAOQuestt.getUsers(function(err, result) {
+            let users = new Array();
+            if (err) {
+                next(err);
+            } else if (!result) {
+                response.render("users", { users });
+            } else {
+                users = giveFormatUser(result);
+                users.forEach(e=>{
+                    DAOQuestt.getUserQuests(e.id, function(err,result){
+                        if (err) {
+                            next(err);
+                        } else if (!result) {
+                            response.render("users", { users });
+                        } else {
+                            let tag = getCommonTag(result);
+                            users.tag = tag;
+                            response.render("users", { users });
+                        }
+                    });
+                })
                 
             }
         });
