@@ -8,6 +8,9 @@ a {
 }
 li{
     list-style:none; 
+    font-family: 'Encode Sans', sans-serif;
+    font-weight: bold;
+    margin-top: 20px;
 }
 .nav-item.dropdown {
     color: white !important;
@@ -40,4 +43,33 @@ li{
 .topnav-right {
     float: right;
 }
+.bb{
+    display: flex;
+}
+.form-control.b{
+    width: 300%;
+}
+.btn.btn-success{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 110%;
+    padding: 5%;
+}
+.imgR{
+    border-radius: 30px;
+}
 
+#butSearch{
+    margin-left: 70% !important;
+    padding-top: 10%;
+    padding-left: 6%;
+    padding-right: 6%;
+    padding-bottom: 6%;
+}
+#txt{
+    margin-left: 4%;
+}
+#userName{
+    font-family: 'Encode Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}

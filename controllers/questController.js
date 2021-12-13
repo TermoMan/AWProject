@@ -181,19 +181,18 @@ module.exports={
         });
     },
     viewQuest(request, response) {
-        let tit = request.params.tit;
+        let id = request.params.id;
+        console.log(id);
         var visitas;
         //obetener toda la informacion de una pregunta 
-        DAOQuestt.get1Preg(tit, function(err, result) {
+        DAOQuestt.get1Preg(id, function(err, result) {
             let preg = new Array();
-
             if (err) {
                 next(err);
-
             } else if (!result) {
+                console.log(preg.tags);
                 response.render("infoQuest", {preg});
             } else {
-
                 preg = giveFormatQuest(result, false);
                 preg = preg[preg.length -1];
                 //guardamos el numero de visitas antiguo
@@ -202,10 +201,12 @@ module.exports={
 
                 DAOQuestt.getAnsw(preg.id, function(err, result){
                     if (err) {
+                        console.log(preg.tags);
                         next(err);
                     }
                     else if(!result){
                         preg.respuesta = new Array();
+                        console.log(preg.tags);
                         response.render("infoQuest", {preg});
                     } 
                     else{

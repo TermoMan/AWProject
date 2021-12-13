@@ -70,7 +70,12 @@ a:hover {
     color: rgb(1, 255, 1);
 }
 .tgs{
+    font-size: 120%;
+    font-family: 'Overpass', sans-serif;
     color: rgb(1, 255, 1);
+}
+.tgs.tB{
+    font-size: 90% !important;
 }
 
 .tag-tit{
@@ -84,13 +89,17 @@ a:hover {
 }
 
 #pregs {
-
-    font-size: large;
+    padding-top: 20px;
+    font-size: 120%;
+    font-family: 'Overpass', sans-serif;
 }
 #title{
-    padding-right: 20px;;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 0;
     text-align: center;
     font-size:170%;
+    font-family: 'Bebas Neue', cursive;
 }
 
 #titlep{

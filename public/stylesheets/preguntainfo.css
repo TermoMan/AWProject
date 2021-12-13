@@ -1,7 +1,5 @@
 #titlep{
- font-size: x-large;
- font-style: italic;
- color: green;
+ 
 }
 
 #pregcuerpo{
@@ -32,7 +30,12 @@
 }
 
 .tgs{
+    font-size: 120%;
+    font-family: 'Overpass', sans-serif;
     color: rgb(1, 255, 1);
+}
+.tgs.tB{
+    font-size: 90% !important;
 }
 
 .tag-tit{

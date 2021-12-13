@@ -26,12 +26,12 @@ class DAOQuest {
             }
         });
     }
-    get1Preg(tit, callback) {
+    get1Preg(id, callback) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, pr.visitas, pr.puntos, t.texto, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.titulo = ?", [tit],
+                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, pr.visitas, pr.puntos, t.texto, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.idpregunta = ?", [id],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {

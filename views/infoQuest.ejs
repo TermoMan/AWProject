@@ -23,7 +23,7 @@
                     <div class="col" id="preg-info">
                         <div class=row>
                             <div id=textopreg>
-                                <p id=titlep><%= preg.titulo %></p>
+                                <p class="tgs" id=titlep><%= preg.titulo %></p>
                                 <p id = pregcuerpo><%= preg.cuerpo %></p>
                             </div>
                             <div class="tag-container">
@@ -31,7 +31,7 @@
                                     <% if(el!==null){ %>
                                     <div class="tag-child">
                                         <p class="tag-tit">
-                                            <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                                            <a class="tgs tB" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
                                         </p>
                                     </div>
                                     <% } %>

@@ -3,7 +3,7 @@
     <head>
          <%- include('index') %>
          <link rel="stylesheet" type="text/css" href="/stylesheets/preguntas.css" media="screen">
-         <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@200&family=IBM+Plex+Mono:wght@200&display=swap" rel="stylesheet">
+         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Encode+Sans:wght@200&family=IBM+Plex+Mono:wght@200&family=Overpass:wght@200&display=swap" rel="stylesheet">
     </head>
     <body class="p-3 mb-2 bg-dark text-light">
         <div>
@@ -37,14 +37,14 @@
                         <li>
                             <div class="li-container">
                                 <div class="li-child">
-                                    <p class="li-tit"><a class="tgs" href="/index/viewInfo/<%=e.titulo%>" id="<%e.titulo%>"><%= e.titulo %></a> </p>
+                                    <p class="li-tit"><a class="tgs" href="/index/viewInfo/<%=e.id%>" id="<%e.titulo%>"><%= e.titulo %></a> </p>
                                     <p  class="li-body"><%= e.cuerpo %></p>
                                     <div class="tag-container">
                                         <% e.tags.forEach(el => { %>
                                             <% if(el!==null){ %>
                                             <div class="tag-child">
                                                 <p class="tag-tit">
-                                                    <a class="tgs" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
+                                                    <a class="tgs tB" href="/index/searchByTag/<%= el%>" id="<%= el%>"><%= el %></a> 
                                                 </p>
                                             </div>
                                             <% } %>

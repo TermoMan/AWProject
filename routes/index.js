@@ -21,7 +21,7 @@ router.get('/formQuest', isLogged, questController.formQuestion);
 router.post('/insertQuest', isLogged, questController.insertQuestion);
 router.post('/answer/:id', isLogged, questController.insertAnswer);
 
-router.get('/viewInfo/:tit', isLogged, questController.viewQuest);
+router.get('/viewInfo/:id', isLogged, questController.viewQuest);
 
 //router.get('/votos', )
 
