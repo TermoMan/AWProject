@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-12-2021 a las 14:26:44
+-- Tiempo de generación: 14-12-2021 a las 21:58:49
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -37,7 +37,8 @@ CREATE TABLE `medallaspreg` (
 --
 
 INSERT INTO `medallaspreg` (`idpregunta`, `idmedalla`) VALUES
-(16, 2);
+(16, 2),
+(17, 3);
 
 -- --------------------------------------------------------
 
@@ -72,12 +73,12 @@ CREATE TABLE `preguntas` (
 
 INSERT INTO `preguntas` (`idpregunta`, `idusuario`, `titulo`, `cuerpo`, `fecha`, `puntos`, `visitas`) VALUES
 (1, 1, 'a', 'a', '2021-11-23', 0, 1),
-(13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 6),
+(13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 65),
 (14, 2, 'pssssssss', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-10-06', 0, 4),
 (15, 2, 'saaaaaaaaaa', 'asssssssasas', '2021-08-05', 0, 2),
 (16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 4),
-(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 1),
-(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 0, 2);
+(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 7),
+(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 1, 101);
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,7 @@ CREATE TABLE `respuestas` (
   `respuesta` varchar(1000) NOT NULL,
   `idusuario` int(100) NOT NULL,
   `idpregunta` int(100) NOT NULL,
-  `puntuacion` int(10) NOT NULL DEFAULT 0,
+  `puntos` int(10) NOT NULL DEFAULT 0,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -98,7 +99,7 @@ CREATE TABLE `respuestas` (
 -- Volcado de datos para la tabla `respuestas`
 --
 
-INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntuacion`, `fecha`) VALUES
+INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntos`, `fecha`) VALUES
 (2, 'adios', 1, 13, 0, '2021-12-10'),
 (3, 'mirespuesta', 1, 18, 0, '2021-12-11'),
 (4, 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en la parte superior izquierda y la identificación del usuario situada en la parte superior derecha. 4 La identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará la página de perfil de usuario (figura 10). El menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica su funcionamiento. Debajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las palabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena la búsqueda.', 1, 18, 0, '2021-12-11');
@@ -120,8 +121,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('sVoX5agMO8236wJ8fXopPs03LCJurdo6', 1639425358, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
-('tHcDZrNalKK8TOYiSO5etWzwizY1yUmN', 1639488321, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}');
+('9TjDn2zTXkBS6wFIKIq8GEw34a7CxZII', 1639601311, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"a\",\"password\":\"a\",\"name\":\"aaa\",\"userId\":1,\"image\":\"a\",\"date\":\"2021-11-22T23:00:00.000Z\",\"reputation\":1}'),
+('VqR4P7zVUs96hIwWpB-4L_6v3_NNEfbP', 1639543377, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"qqq\",\"password\":\"123\",\"name\":\"qqq\",\"userId\":3,\"image\":\"nico.png\",\"date\":\"2021-12-05T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
@@ -215,13 +216,6 @@ CREATE TABLE `votospreg` (
   `idpregunta` int(11) NOT NULL,
   `positivo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `votospreg`
---
-
-INSERT INTO `votospreg` (`idusuario`, `idpregunta`, `positivo`) VALUES
-(1, 13, 0);
 
 -- --------------------------------------------------------
 
@@ -376,8 +370,8 @@ ALTER TABLE `tagpreg`
 -- Filtros para la tabla `votospreg`
 --
 ALTER TABLE `votospreg`
-  ADD CONSTRAINT `usuario_voto_preg` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `voto_preg` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `usuario_voto_preg` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`),
+  ADD CONSTRAINT `voto_preg` FOREIGN KEY (`idpregunta`) REFERENCES `preguntas` (`idpregunta`);
 
 --
 -- Filtros para la tabla `votosres`

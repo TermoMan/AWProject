@@ -239,7 +239,7 @@ module.exports={
                 let visitasAnt = preg.visitas;
                 preg.visitas = preg.visitas + 1;
                 
-                DAOQuestt.getAnsw(preg.id, function(err, result){
+                DAOQuestt.getAnsw(preg.id, response.locals.userId, function(err, result){
                     if (err) {
                         console.log(preg.tags);
                         next(err);
