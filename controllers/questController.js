@@ -22,11 +22,13 @@ function convertirFecha(fechaString) {
 
 function giveFormatQuest(result, fc){
     let quests = new Array();
+    var arr = new Array();
     result.forEach(e => {
         if(fc && e. cuerpo.length > 150) e.cuerpo = e.cuerpo.substring(0, 150) + "...";
         d = new Date(e.fecha);
         var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-        if (quests.length === 0) quests.push({
+        if(e.tags !== null) arr = e.tags.split(',');
+        quests.push({
             id: e.idpregunta,
             titulo: e.titulo,
             cuerpo: e.cuerpo,
@@ -35,20 +37,8 @@ function giveFormatQuest(result, fc){
             visitas: e.visitas,
             nickname: e.nickname,
             imagen: e.imagen,
-            tags: [e.texto]
+            tags: arr
         });
-        else {
-            if (quests[quests.length - 1].id === e.idpregunta) quests[quests.length - 1].tags.push(e.texto);
-            else quests.push({
-                id: e.idpregunta,
-                titulo: e.titulo,
-                cuerpo: e.cuerpo,
-                fecha: datestring,
-                nickname: e.nickname,
-                imagen: e.imagen,
-                tags: [e.texto]
-            });
-        }
     });
     quests.sort(function(a, b) {
         return convertirFecha(b.fecha) - convertirFecha(a.fecha);
@@ -58,19 +48,34 @@ function giveFormatQuest(result, fc){
 
 function giveFormatUser(result){
     let users = new Array();
-    result.forEach(e=>{
-        users.push({id: e.idusuario, name: e.nickname, image: e.image, rep: e.reputacion})
+    result.forEach(e => {
+        if (users.length === 0){
+            if(e.texto === null) users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: []});
+            else users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: [e.texto]});
+        } else {
+            if (users[users.length - 1].id === e.idusuario){
+                if(e.texto !== null) users[users.length - 1].tags.push(e.texto);
+            } 
+            else{
+                if(e.texto === null) users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: []});
+                else users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: [e.texto]});
+            } 
+        }
     });
     return users;
 }
 
 function getCommonTag(result){
+    var max = 0;
+    var tagP = null;
+    let tgs = new Array();
     let elems = new Array();
     let elems2 = new Array();
     let count = new Array();
     result.forEach(e=>{
-        if(e.tags!==null){
-            e.tags.forEach(el=>{
+        if(e.texto!==null){
+            tgs = e.texto.split();
+            tgs.forEach(el=>{
                 elems.push(el);
             });
         }
@@ -81,17 +86,24 @@ function getCommonTag(result){
         else return 1;
     });
     let tag = elems.shift();
-    elems2.push(tag);
-    count.push(1);
-    elems.forEach(ele=>{
-        if(ele===tag) count[count.lenght - 1] += 1;
-        else {
-            tag = elems.shift();
-            elems2.push(tag);
-            count.push(1);
-        }
-    });
-    //Por ahora tengo un array con los tags y otro con las veces que se repite cada uno
+    if(tag!==undefined){
+        elems2.push(tag);
+        count.push(1);
+        elems.forEach(ele=>{
+            tag=elems2[elems2.length -1];
+            if(ele===tag) {
+                let n = count.pop() + 1;
+                count.push(n);
+            }else {
+                elems2.push(ele);
+                count.push(1);
+            }
+        });
+    }
+    if(count.length) max = Math.max.apply(null, count);
+    let i = count.indexOf(max);
+    if(i !== -1) tagP = elems2[i];
+    return tagP;
 }
 
 function findByTag(quests, tag){
@@ -101,9 +113,7 @@ function findByTag(quests, tag){
 }
 
 function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
-
     let accion = medals.actionmedal(visitasAnt, visitasNew, tipo);
-
     if(accion.action === "insert"){
         DAOMedals.insertMedalQuestion(preg, accion.idMedal, function(err){
             if(err) {
@@ -206,13 +216,13 @@ module.exports={
             }
         })
     },
-    showByTag(request, response) {
+    showByTag(request, response, next) {
         let tag = request.params.tag;
         var titulo = "Preguntas con la etiqueta [" + tag + "]";
         DAOQuestt.getQuestions(function(err, result) {
             let quests = new Array();
             if (err) {
-                response.render("allQuest", { quests, titulo, error: "Error interno de acceso a la base de datos" });
+                next(err);
             } else if (!result) {
                 response.render("allQuest", { quests, titulo, error: null });
             } else {
@@ -222,7 +232,7 @@ module.exports={
             }
         });
     },
-    viewQuest(request, response) {
+    viewQuest(request, response, next) {
         let id = request.params.id;
         console.log(id);
         var visitas;
@@ -240,7 +250,7 @@ module.exports={
                 //guardamos el numero de visitas antiguo
                 let visitasAnt = preg.visitas;
                 preg.visitas = preg.visitas + 1;
-
+                
                 DAOQuestt.getAnsw(preg.id, function(err, result){
                     if (err) {
                         console.log(preg.tags);
@@ -281,7 +291,7 @@ module.exports={
             }
         });
     },
-    viewUsers(request, response){
+    viewUsers(request, response, next){
         DAOQuestt.getUsers(function(err, result) {
             let users = new Array();
             if (err) {
@@ -289,21 +299,10 @@ module.exports={
             } else if (!result) {
                 response.render("users", { users });
             } else {
+                console.log(result);
                 users = giveFormatUser(result);
-                users.forEach(e=>{
-                    DAOQuestt.getUserQuests(e.id, function(err,result){
-                        if (err) {
-                            next(err);
-                        } else if (!result) {
-                            response.render("users", { users });
-                        } else {
-                            let tag = getCommonTag(result);
-                            users.tag = tag;
-                            response.render("users", { users });
-                        }
-                    });
-                })
-                
+                console.log(users);
+                response.render("users", { users });
             }
         });
     },
@@ -360,6 +359,7 @@ module.exports={
             }
             else{
                 DAOVotes.upvoteQuestion(id, usuario, function(err){
+                    console.log(id);
                     if(err){
                         next(err);
                     } else{

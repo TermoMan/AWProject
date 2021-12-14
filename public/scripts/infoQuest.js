@@ -90,6 +90,7 @@ function botonDownvote(idDown, idUp) {
 
 $(function () {
   $(".button-upvote").each(function(index){
+    let id = this.id;
     $(this).prop("id", "buttonUpvote-" + index);
     $(this).on("click", e=>{botonUpvote("#buttonUpvote-" + index, "#buttonDownvote-" + index)});
     $(this).data("pressed", false);
