@@ -282,17 +282,37 @@ module.exports={
     viewUsers(request, response, next){
         DAOQuestt.getUsers(function(err, result) {
             let users = new Array();
+            var titulo = "Usuarios";
             if (err) {
                 next(err);
             } else if (!result) {
-                response.render("users", { users });
+                response.render("users", {titulo, users });
             } else {
                 users = giveFormatUser(result);
                 users.forEach( e=>{
                     let tag = getCommonTag(e.tag);
                     if(tag!==null) e.tag = tag;
                 });
-                response.render("users", { users });
+                response.render("users", {titulo, users });
+            }
+        });
+    },
+    searchUsers(request, response) {
+        let text = request.body.texto;
+        var titulo = "Usuarios filtrados por "+ "\"" + text + "\"";
+        DAOQuestt.getUsersText(text, function(err, result) {
+            let users = new Array();
+            if (err) {
+                next(err);
+            } else if (!result) {
+                response.render("users", {titulo, users });
+            } else {
+                users = giveFormatUser(result);
+                users.forEach( e=>{
+                    let tag = getCommonTag(e.tag);
+                    if(tag!==null) e.tag = tag;
+                });
+                response.render("users", {titulo, users });
             }
         });
     },

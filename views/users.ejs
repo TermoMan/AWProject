@@ -12,17 +12,20 @@
 </head>
 
 <body class="p-3 mb-2 bg-dark text-light">
-    <div id="sep">
+    <div class="float-container" id=title>
+        <p id=title><%=titulo%></p>
+    </div>
+    <div>
         <ul>
             <div class="li-container">
                 <div>
-                    <form action="/index/search" method="POST">
+                    <form action="/index/searchUsers" method="POST">
                         <div class="bb">
                             <div>
                                 <button type="submit" class="btn btn-success" id="butSearch2"> Buscar </button>
                             </div>
                             <div id="txt">
-                                <input type="text" class="form-control b" id="f2" name="texto">
+                                <input type="text" placeholder="Filtrar por usuario" class="form-control b" id="f2" name="texto">
                             </div>
                         </div>
                     </form>
