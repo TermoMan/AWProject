@@ -254,7 +254,7 @@ module.exports={
                         result.forEach(e => {
                             d = new Date(e.fecha);
                             var date = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-                            resp.push({respuesta: e.respuesta, puntuacion: e.puntuacion, fecha: date, imagen: e.imagen, nickname: e.nickname});
+                            resp.push({idrespuesta: e.idrespuesta, respuesta: e.respuesta, positivo: e.puntos, fecha: date, imagen: e.imagen, nickname: e.nickname});
                         });
                         preg.respuesta = resp;
                         response.render("infoQuest", {preg});

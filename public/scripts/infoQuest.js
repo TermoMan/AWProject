@@ -104,6 +104,7 @@ $(function () {
     $(this).prop("id", "buttonUpvote-" + index);
     $(this).on("click", e=>{botonUpvote("#buttonUpvote-" + index, "#buttonDownvote-" + index)});
 
+
     if($(this).data("valor") == 1){
       $(this).data("pressed", true);
       $(this).css("background-image", "url(http://localhost:3000/images/upvote-verde.png)");
@@ -126,7 +127,8 @@ $(function () {
     if($(this).data("valor") == -1){
       $(this).css("background-image", "url(http://localhost:3000/images/downvote-rojo.png)");
       $(this).data("pressed", true);
-    } else $(this).data("pressed", false);
+    }
+    else $(this).data("pressed", false);
 
 
   });

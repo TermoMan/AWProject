@@ -43,8 +43,8 @@
                             <p id=pregVisitas>Visitas: <%= preg.visitas%> </p>
                             <p id=pregPuntos>Puntos: <%= preg.puntos%> </p> <br>
                             <div class="votes-buttons">                               
-                                <button class="button-upvote" data-valor="<%= valor%>" id="<%=preg.id%>"></button>
-                                <button class="button-downvote" data-valor="<%= valor%>" id="<%=preg.id%>"></button>
+                                <button class="button-upvote" data-valor="1" id="<%=preg.id%>"></button>
+                                <button class="button-downvote" data-valor="1" id="<%=preg.id%>"></button>
                             </div>
                         </div>
                     </div>
@@ -65,8 +65,8 @@
                             <div class="col">
                                 <p  class="li-body"><%= e.respuesta %></p> <br>
                                 <div class="votes-buttons">
-                                    <button class="button-upvote" data-valor= "<%= e.positivo %>" ></button>
-                                    <button class="button-downvote" data-valor= "<%= e.positivo %>" ></button>
+                                    <button class="button-upvote" id="<%=e.idrespuesta%>" data-valor= "<%= e.positivo %>" ></button>
+                                    <button class="button-downvote" id="<%=e.idrespuesta%>" data-valor= "<%= e.positivo %>" ></button>
                                 </div>
                             </div>
                             <div class="col" id=user>

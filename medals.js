@@ -28,10 +28,10 @@ function getMedalId(num, tipo){
 function getMedalVisitas(num){
 
     switch(true){
-        case (num  >= 2 && num < 4): return 1;
-        case (num >= 4 && num < 6):  return 2;
-        case (num >= 6): return 3;
-        default: return 0;
+        case (num  >= 2 && num < 4): return 0;
+        case (num >= 4 && num < 6):  return 1;
+        case (num >= 6): return 2;
+        default: return -1;
     }
 
 }
@@ -39,11 +39,11 @@ function getMedalVisitas(num){
 function getMedalVotosPreg(num){
 
     switch(true){
-        case (num == 1): return 4;
-        case (num  >= 2 && num < 4): return 5;
-        case (num >= 4 && num < 6):  return 6;
-        case (num >= 6): return 7;
-        default: return 0;
+        case (num == 1): return 3;
+        case (num  >= 2 && num < 4): return 4;
+        case (num >= 4 && num < 6):  return 5;
+        case (num >= 6): return 6;
+        default: return -1;
     }
 
 }
@@ -52,10 +52,10 @@ function getMedalVotosPreg(num){
 function getMedalVotosRes(num){
 
     switch(true){
-        case (num  >= 2 && num < 4): return 8;
-        case (num >= 4 && num < 6):  return 9;
-        case (num >= 6): return 10;
-        default: return 0;
+        case (num  >= 2 && num < 4): return 7;
+        case (num >= 4 && num < 6):  return 8;
+        case (num >= 6): return 9;
+        default: return -1;
     }
 
 }
@@ -67,8 +67,8 @@ function actionmedal(dataOld, dataNew, tipo){
     let action;
     
     if(oldMedal != newMedal){
-        if(newMedal === 0) action = "delete";
-        if(oldMedal === 0) action = "insert";
+        if(newMedal === -1) action = "delete";
+        if(oldMedal === -1) action = "insert";
         else action = "update";
     }
 
