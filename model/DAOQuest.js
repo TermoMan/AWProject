@@ -208,6 +208,44 @@ class DAOQuest {
         });
     }
 
+    voteQuestion(idpregunta, voto, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("UPDATE preguntas SET puntos = puntos + ? WHERE idpregunta = ?",
+                [voto, idpregunta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, rows);
+                        }
+                    });
+            }
+        });
+    }
+
+    getVotesQuestion(idpregunta, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("Select puntos FROM preguntas WHERE idpregunta = ?",
+                [idpregunta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, rows);
+                        }
+                    });
+            }
+        });
+    }
+
 }
 
 module.exports = DAOQuest;

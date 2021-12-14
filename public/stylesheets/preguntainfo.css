@@ -1,5 +1,5 @@
-#titlep{
- 
+.container{
+ min-width: 512px !important;
 }
 
 #pregcuerpo{
@@ -12,6 +12,21 @@
     border: rgb(13, 97, 32) 6px solid !important;
     background-color:rgb(13, 17, 13);
     border-radius: 10px !important;
+}
+
+.button-upvote{
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: none;
+    background-image: url(/images/upvote-blanco.png)
+}
+.button-downvote{
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: none;
+    background-image: url(/images/downvote-blanco.png)
 }
 
 #preg-info.col{
@@ -61,4 +76,8 @@
 
 #user.col{
     text-align: right !important;
+}
+
+.votes-buttons{
+    text-align: end;
 }

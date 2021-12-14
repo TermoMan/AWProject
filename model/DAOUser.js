@@ -55,6 +55,7 @@ class DAOUser {
             }       
         });
     }
+    
 }
 
 module.exports = DAOUser;

@@ -23,8 +23,7 @@ router.post('/answer/:id', isLogged, questController.insertAnswer);
 
 router.get('/viewInfo/:id', isLogged, questController.viewQuest);
 
-//router.get('/votos', )
-
-
+router.post("/upVote", isLogged, questController.upVote);
+router.post("/downVote", isLogged, questController.downVote);
 
 module.exports = router;

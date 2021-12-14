@@ -5,6 +5,7 @@ a {
 .topnav {
     position: relative;
     overflow: hidden;
+    min-width: 703px;
 }
 li{
     list-style:none; 
