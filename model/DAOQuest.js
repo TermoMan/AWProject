@@ -48,12 +48,12 @@ class DAOQuest {
         });
     }
 
-    getAnsw(id, callback) {
+    getAnsw(id, iduser, callback) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT r.respuesta, r.fecha, r.puntuacion, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN respuestas r ON pr.idpregunta = r.idpregunta) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.idpregunta = ?", [id],
+                connection.query("SELECT r.idrespuesta, r.respuesta, r.fecha, r.puntos, (SELECT positivo FROM votosres AS v WHERE v.idusuario = ? AND v.idrespuesta = r.idrespuesta) AS positivo, u.nickname, u.imagen FROM ((preguntas pr LEFT JOIN respuestas r ON pr.idpregunta = r.idpregunta) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.idpregunta = ?", [iduser,id],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
