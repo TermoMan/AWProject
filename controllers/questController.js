@@ -127,7 +127,7 @@ function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
 }
 
 module.exports={
-    showQuestions(request, response) {
+    showQuestions(request, response, next) {
         var titulo = "Todas Las Preguntas";
         DAOQuestt.getQuestions(function(err, result) {
             let quests = new Array();
@@ -144,7 +144,7 @@ module.exports={
     formQuestion(request, response) {
         response.render("newQuest", { titulo:null, error: null });
     },
-    insertQuestion(request, response) {
+    insertQuestion(request, response, next) {
         var lbls = request.body.labels;
         lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
         if(lbls.length> 5) response.render("newQuest", { error: "Tienes un máximo de 5 tags." })
@@ -178,7 +178,7 @@ module.exports={
         })
     
     },
-    insertAnswer(request, response) {
+    insertAnswer(request, response, next) {
         let idp = request.params.id;
         var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -297,7 +297,7 @@ module.exports={
             }
         });
     },
-    searchUsers(request, response) {
+    searchUsers(request, response, next) {
         let text = request.body.texto;
         var titulo = "Usuarios filtrados por "+ "\"" + text + "\"";
         DAOQuestt.getUsersText(text, function(err, result) {
@@ -315,6 +315,34 @@ module.exports={
                 response.render("users", {titulo, users });
             }
         });
+    },
+
+    viewUserInfo(request,response, next){
+        let id = request.params.id;
+        let user = null;
+        DAOQuestt.viewUserInfo(id, function(err,result){
+            if(err){
+                next(err);
+            } else if(!result){
+                response.render("userProfile", {user})
+            } else{
+                user = result[0];
+                d = new Date(user.fecha);
+                var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                user = {
+                    nickname: user.nickname,
+                    imagen: user.imagen,
+                    fecha: datestring,
+                    reputacion: user.reputacion,
+                    numPregs: user.numPregs,
+                    numResp: user.numResp,
+                    puntResp: user.puntResp,
+                    puntPreg: user.puntPreg,
+                    visitPreg: user.visitPreg
+                };
+                response.render("userProfile", {user})
+            }
+        })
     },
     //gestiona todas las opciones del boton upvote
     upVote(request, response, next){

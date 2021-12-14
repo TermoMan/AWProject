@@ -24,6 +24,7 @@ router.post('/answer/:id', isLogged, questController.insertAnswer);
 router.get('/viewInfo/:id', isLogged, questController.viewQuest);
 router.get('/users', isLogged, questController.viewUsers);
 router.post('/searchUsers', isLogged, questController.searchUsers);
+router.get('/viewUserInfo/:id', isLogged, questController.viewUserInfo)
 
 router.post("/upVote", isLogged, questController.upVote);
 router.post("/downVote", isLogged, questController.downVote);
