@@ -4,12 +4,12 @@ function sendUp(idUp, pressed, negative){
   if(pressed){
     $(idUp).css("background-image", "url(http://localhost:3000/images/upvote-verde.png)");
     $(idUp).data("pressed", true);
-  } 
+  }
   $.ajax({
     type: "POST",
     url: "/index/upVote",
     contentType: "application/json",
-    data: JSON.stringify({ id: 18, pressed: pressed, negative: negative, question: true }),
+    data: JSON.stringify({ id: $(idUp).data("idOg"), pressed: pressed, negative: negative, question: $(idUp).data("question") }),
 
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
@@ -31,7 +31,7 @@ function sendDown(idDown, pressed, positive){
     type: "POST",
     url: "/index/downVote",
     contentType: "application/json",
-    data: JSON.stringify({id: 18, pressed: pressed, positive: positive, question: true}),
+    data: JSON.stringify({id: $(idDown).data("idOg"), pressed: pressed, positive: positive, question: $(idDown).data("question")}),
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
     $("#pregPuntos").text("Votos: " + data.resultado);
@@ -89,15 +89,38 @@ function botonDownvote(idDown, idUp) {
   
 
 $(function () {
+  //gestion de botones upvote
   $(".button-upvote").each(function(index){
-    let id = this.id;
+
+    //Almacenamos el id de la pregunta
+    let id = $(this).prop("id");
+    $(this).data("idOg", id);
+
+    //guardamos si es una pregunta o no
+    if(index === 0) $(this).data("question", true);
+    else $(this).data("question", false);
+
+    //generamos un id para el upvote en concreto y el metodo onclick para modificarlo
     $(this).prop("id", "buttonUpvote-" + index);
     $(this).on("click", e=>{botonUpvote("#buttonUpvote-" + index, "#buttonDownvote-" + index)});
+
+    //marcamos presionado a false
     $(this).data("pressed", false);
+
   });
+  //gestion de botones downvote
   $(".button-downvote").each(function(index){
+
+    let id = $(this).prop("id");
+    $(this).data("idOg", id);
+
+    if(index === 0) $(this).data("question", true);
+    else $(this).data("question", false);
+
     $(this).prop("id", "buttonDownvote-" + index);
     $(this).on("click", e=>{botonDownvote("#buttonDownvote-" + index, "#buttonUpvote-" + index)});
+
+
     $(this).data("pressed", false);
   });
 });
