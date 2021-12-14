@@ -194,7 +194,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             }else {
-                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario GROUP BY pr.idpregunta",
+                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario GROUP BY u.idusuario",
                 [],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión

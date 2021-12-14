@@ -41,6 +41,16 @@ li{
     padding: 20px;
 } 
 
+.li-child.peq{
+    width: 30% !important;
+    float: left;
+    padding: 20px;
+    margin: 1%;
+    height: 250px;
+    border: 2px solid #19772f;
+    border-radius: 30px;
+} 
+
 .li-child.u{
     padding-left: 200px !important;
 }
@@ -65,6 +75,7 @@ li{
     float: left;
     padding-left: 5px;
 }
+
 a:hover { 
     text-decoration: none; 
     color: rgb(1, 255, 1);
@@ -77,6 +88,13 @@ a:hover {
 .tgs.tB{
     font-size: 90% !important;
 }
+.tgs.l{
+    text-decoration: none;
+    color: rgb(1, 255, 1);
+}
+.tgs.l:hover{
+    color: rgb(16, 75, 16);
+}
 
 .tag-tit{
     padding: 10px;
@@ -87,7 +105,11 @@ a:hover {
     border: darkgreen solid 1px;
     border-radius: 30px;
 }
-
+.btn.btn-success{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 110%;
+    padding: 5%;
+}
 #pregs {
     padding-top: 20px;
     font-size: 120%;
@@ -106,11 +128,9 @@ a:hover {
     padding-right: 20px;
     font-size:170%;
 }
- #f{
-     padding-top: 15%;
- }
-.btn.btn-success{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 110%;
-    padding: 5%;
+#f{
+    padding-top: 15%;
+}
+#sep{
+    padding-top: 5%;
 }

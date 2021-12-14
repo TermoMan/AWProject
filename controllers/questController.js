@@ -48,48 +48,36 @@ function giveFormatQuest(result, fc){
 
 function giveFormatUser(result){
     let users = new Array();
+    var arr = new Array();
     result.forEach(e => {
-        if (users.length === 0){
-            if(e.texto === null) users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: []});
-            else users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: [e.texto]});
-        } else {
-            if (users[users.length - 1].id === e.idusuario){
-                if(e.texto !== null) users[users.length - 1].tags.push(e.texto);
-            } 
-            else{
-                if(e.texto === null) users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: []});
-                else users.push({id: e.idusuario, name: e.nickname, image: e.imagen, rep: e.reputacion, tags: [e.texto]});
-            } 
-        }
+        if(e.tags !== null) arr = e.tags.split(',');
+        else arr = new Array();
+        users.push({
+            id: e.idusuario,
+            name: e.nickname,
+            imagen: e.imagen,
+            reputacion: e.reputacion,
+            tag: arr
+        });
     });
     return users;
 }
 
-function getCommonTag(result){
+function getCommonTag(tags){
     var max = 0;
     var tagP = null;
-    let tgs = new Array();
-    let elems = new Array();
     let elems2 = new Array();
     let count = new Array();
-    result.forEach(e=>{
-        if(e.texto!==null){
-            tgs = e.texto.split();
-            tgs.forEach(el=>{
-                elems.push(el);
-            });
-        }
-    });
-    elems.sort((a,b)=>{
-        if (a == b) return 0;
-        else if (a < b) return -1;
-        else return 1;
-    });
-    let tag = elems.shift();
-    if(tag!==undefined){
+    if(tags.length){
+        tags.sort((a,b)=>{
+            if (a == b) return 0;
+            else if (a < b) return -1;
+            else return 1;
+        });
+        let tag = tags.shift();
         elems2.push(tag);
         count.push(1);
-        elems.forEach(ele=>{
+        tags.forEach(ele=>{
             tag=elems2[elems2.length -1];
             if(ele===tag) {
                 let n = count.pop() + 1;
@@ -99,10 +87,10 @@ function getCommonTag(result){
                 count.push(1);
             }
         });
+        max = Math.max.apply(null, count);
+        let i = count.indexOf(max);
+        tagP = elems2[i];
     }
-    if(count.length) max = Math.max.apply(null, count);
-    let i = count.indexOf(max);
-    if(i !== -1) tagP = elems2[i];
     return tagP;
 }
 
@@ -299,15 +287,17 @@ module.exports={
             } else if (!result) {
                 response.render("users", { users });
             } else {
-                console.log(result);
                 users = giveFormatUser(result);
-                console.log(users);
+                users.forEach( e=>{
+                    let tag = getCommonTag(e.tag);
+                    if(tag!==null) e.tag = tag;
+                });
                 response.render("users", { users });
             }
         });
     },
     //gestiona todas las opciones del boton upvote
-    upVote(request, response){
+    upVote(request, response, next){
         let usuario = response.locals.userId;
         let id = request.body.id;
         let pressed = request.body.pressed;
@@ -383,7 +373,7 @@ module.exports={
         } 
     },
     //gestiona todas las opciones del boton downvote
-    downVote(request, response){
+    downVote(request, response, next){
         let usuario = response.locals.userId;
         let id = request.body.id;
         let pressed = request.body.pressed;
