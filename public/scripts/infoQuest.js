@@ -104,8 +104,11 @@ $(function () {
     $(this).prop("id", "buttonUpvote-" + index);
     $(this).on("click", e=>{botonUpvote("#buttonUpvote-" + index, "#buttonDownvote-" + index)});
 
-    //marcamos presionado a false
-    $(this).data("pressed", false);
+    if($(this).data("valor") == 1){
+      $(this).data("pressed", true);
+      $(this).css("background-image", "url(http://localhost:3000/images/upvote-verde.png)");
+    }
+    else $(this).data("pressed", false);
 
   });
   //gestion de botones downvote
@@ -120,7 +123,11 @@ $(function () {
     $(this).prop("id", "buttonDownvote-" + index);
     $(this).on("click", e=>{botonDownvote("#buttonDownvote-" + index, "#buttonUpvote-" + index)});
 
+    if($(this).data("valor") == -1){
+      $(this).css("background-image", "url(http://localhost:3000/images/downvote-rojo.png)");
+      $(this).data("pressed", true);
+    } else $(this).data("pressed", false);
 
-    $(this).data("pressed", false);
+
   });
 });
