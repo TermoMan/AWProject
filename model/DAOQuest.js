@@ -198,7 +198,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             }else {
-                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario GROUP BY u.idusuario",
+                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((usuario u LEFT JOIN preguntas pr ON pr.idusuario = u.idusuario)LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag GROUP BY u.idusuario",
                 [],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
@@ -236,7 +236,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario WHERE u.nickname LIKE concat('%', ?, '%') GROUP BY u.idusuario ", [text],
+                connection.query("SELECT pr.idpregunta, GROUP_CONCAT(t.texto) AS tags, u.idusuario, u.nickname, u.imagen, u.reputacion FROM ((usuario u LEFT JOIN preguntas pr ON pr.idusuario = u.idusuario)LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag WHERE u.nickname LIKE concat('%', ?, '%') GROUP BY u.idusuario ", [text],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {

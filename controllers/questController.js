@@ -10,14 +10,30 @@ const DAOUserr = new DAOUser();
 const DAOVotess = require("../model/DAOVotes.js");
 const DAOVotes = new DAOVotess();
 
-function convertirFecha(fechaString) {
-    var fechaSp = fechaString.split("-");
-    var anio = new Date().getFullYear();
-    anio = fechaSp[2];
-    var mes = fechaSp[1] - 1;
-    var dia = fechaSp[0];
+function convertDate(date) {
+    var d = date.split("-");
+    var year = new Date().getFullYear();
+    year = d[2];
+    var mon = d[1] - 1;
+    var day = d[0];
 
-    return new Date(anio, mes, dia);
+    return new Date(year, mon, day);
+}
+
+function validateQuestion(lbls){
+    if(lbls==='') lbls = [];
+    else{
+        lbls = lbls.replace(/\s+/g, '');
+        lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
+    }
+    if(lbls.length> 5) lbls = null;
+    return lbls;
+}
+
+function giveformatDate(date){
+    d = new Date(date);
+    var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+    return datestring;
 }
 
 function giveFormatQuest(result, fc){
@@ -25,8 +41,7 @@ function giveFormatQuest(result, fc){
     var arr = new Array();
     result.forEach(e => {
         if(fc && e. cuerpo.length > 150) e.cuerpo = e.cuerpo.substring(0, 150) + "...";
-        d = new Date(e.fecha);
-        var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+        var datestring = giveformatDate(e.fecha);
         if(e.tags !== null) arr = e.tags.split(',');
         quests.push({
             idusuario: e.idusuario,
@@ -44,7 +59,7 @@ function giveFormatQuest(result, fc){
         arr = new Array();
     });
     quests.sort(function(a, b) {
-        return convertirFecha(b.fecha) - convertirFecha(a.fecha);
+        return convertDate(b.fecha) - convertDate(a.fecha);
     });
     return quests;
 }
@@ -102,13 +117,13 @@ function formatMedals(puntos, format){
     let med = new Array();
     let times = new Array();
     let arrFin = new Array();
-    if(puntos !== null) arr = puntos.split(',');
-    arr.forEach(e=>{
-        let num = medals.getMedalId(e,format);
+    if(puntos !== null) arr = puntos.split(','); //Se formatea el array de puntos
+    arr.forEach(e=>{ 
+        let num = medals.getMedalId(e,format); //Para cada elem se averigua el id del array medals
         if(num!==-1) {
-            elem = medals.array[num].nombre;
+            elem = medals.array[num].nombre; //Se toma su campo texto
             let i = med.indexOf(elem);
-            if(i === -1){
+            if(i === -1){ //Si no está el elemento añadido se pusea, se suma uno a las veces que aparece
                 med.push(elem);
                 times.push(1);
             }else{
@@ -116,10 +131,10 @@ function formatMedals(puntos, format){
             }
         }
     });
-    arr = med.map((e,i) => [e,times[i]]);
+    arr = med.map((e,i) => [e,times[i]]); //mapeamos el array para crear objetos de texto y num veces que aparece
     arr.forEach(e=>{
         index = medals.array.map(el => el.nombre).indexOf(e[0]);
-        arrFin.push({
+        arrFin.push({ //Se crea un array final agregando tambien el tipo
             text: e[0],
             times: e[1],
             type: medals.array[index].tipo
@@ -128,23 +143,20 @@ function formatMedals(puntos, format){
     return arrFin;
 }
 
-function formatMedalsType(medP, medR, medV){
-    var type = [[],[],[]];
+function mapMedalType(medP, type){
     medP.forEach(e=>{
         if(e.type === 1) type[0].push(e);
         if(e.type === 2) type[1].push(e);
         if(e.type === 3) type[2].push(e);
     });
-    medR.forEach(e=>{
-        if(e.type === 1) type[0].push(e);
-        if(e.type === 2) type[1].push(e);
-        if(e.type === 3) type[2].push(e);
-    });
-    medV.forEach(e=>{
-        if(e.type === 1) type[0].push(e);
-        if(e.type === 2) type[1].push(e);
-        if(e.type === 3) type[2].push(e);
-    });
+    return type;
+}
+
+function formatMedalsType(medP, medR, medV){ //Crea un array con cada tipo de medalla
+    var type = [[],[],[]];
+    mapMedalType(medP,type);
+    mapMedalType(medR,type);
+    mapMedalType(medV,type);
     return type;
 }
 
@@ -229,12 +241,8 @@ module.exports={
     },
     insertQuestion(request, response, next) {
         var lbls = request.body.labels;
-        if(lbls==='') lbls = [];
-        else{
-            lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
-        }
-        console.log(lbls);
-        if(lbls.length> 5) response.render("newQuest", { error: "Tienes un máximo de 5 tags." })
+        lbls = validateQuestion(lbls);
+        if(lbls === null)  response.render("newQuest", {error: "No puedes insertar mas de 5 tags" });
         else{
             var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -247,7 +255,7 @@ module.exports={
                     response.redirect("/");
                 }
             });
-        } 
+        }
     },
     search(request, response) {
         let text = request.body.texto;
