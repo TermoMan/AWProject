@@ -84,3 +84,13 @@ li{
     font-weight: bold;
     text-align: center;
 }
+.tgs.l{
+    text-decoration: none;
+    color: rgb(1, 255, 1);
+}
+.tgs.l:hover{
+    color: rgb(16, 75, 16);
+}
+#name{
+    text-align: center;
+}

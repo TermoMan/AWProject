@@ -3,8 +3,7 @@
 
 <head>
     <%- include('index') %>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/preguntainfo.css" media="screen">
-    <script src="/scripts/infoQuest.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/perfil.css" media="screen">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -12,7 +11,99 @@
 </head>
 
 <body class="p-3 mb-2 bg-dark text-light">
-    <div></div>
+    <div>
+        <div class="float-container"id="fc1">
+            <div class="float-child m">
+                <% if(user.length===0) { %>
+                    <p id="pregs">No existe el usuario</p>
+                <% } else { %>
+                    <p class="li-tit c">Miembro desde <%= user.fecha %></p>
+                    <p class="li-tit c"><img src=<%="/uploads/" + user.imagen%> class="imgR" height= "100" width= "100"></p>
+                    <p class="li-tit c"><%= user.nickname %></p>
+                <% } %>
+            </div>
+            <div class="float-child" style="float:right;">
+                <div class="backB">
+                    <p class="li-tit c" id="est">Estadísticas</p>
+                </div>
+                <div class="float-container full">
+                    <div class="float-child xs" id="pre">
+                        <p class="li-tit c">Preguntas</p>
+                        <p class="li-tit c"><%= user.numPregs %></p>
+                    </div>
+                    <div class="float-child xs " id="rep">
+                        <p class="li-tit c">Reputacion</p>
+                        <p class="li-tit c"><%= user.reputacion %></p>
+                    </div>
+                    <div class="float-child xs" id="res">
+                        <p class="li-tit c">Respuestas</p>
+                        <p class="li-tit c"><%= user.numResp %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="float-container" id="fc2">
+                <div class="backB">
+                    <p class="li-tit c" id="est">Medallas</p>
+                </div>
+                <div class="float-container full">
+                    <div class="float-child xs">
+                        <p class="li-tit c" id="bro">Bronce&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <%=user.medals[0].length%></p>
+                        <% if(user.medals[0].length){%>
+                            <% user.medals[0].forEach(e => { %>
+                            <li class="liP">
+                                <div class="float-container xs">
+                                    <div class="float-child s">
+                                        <p class="li-tit xs"><%=e.text%></p>
+                                    </div>
+                                    <div class="float-child xxs">
+                                        <label class="num">x<%=e.times%></label>
+                                    </div>
+                                    
+                                </div>
+                            </li>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                    <div class="float-child xs">
+                        <p class="li-tit c"id="pla">Plata&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <%=user.medals[1].length%></p>
+                        <% if(user.medals[1].length){%>
+                            <% user.medals[1].forEach(e => { %>
+                            <li class="liP">
+                                <div class="float-container xs">
+                                    <div class="float-child s">
+                                        <p class="li-tit xs"><%=e.text%></p>
+                                    </div>
+                                    <div class="float-child xxs">
+                                        <label class="num">x<%=e.times%></label>
+                                    </div>
+                                    
+                                </div>
+                            </li>
+                            <% }) %>
+                    <% } %>
+                    </div>
+                    <div class="float-child xs">
+                        <p class="li-tit c" id="oro">Oro&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <%=user.medals[2].length%></p>
+                        <% if(user.medals[2].length){%>
+                            <% user.medals[2].forEach(e => { %>
+                            <li class="liP">
+                                <div class="float-container xs">
+                                    <div class="float-child s">
+                                        <p class="li-tit xs"><%=e.text%></p>
+                                    </div>
+                                    <div class="float-child xxs">
+                                        <label class="num">x<%=e.times%></label>
+                                    </div>
+                                    
+                                </div>
+                            </li>
+                            <% }) %>
+                    <% } %>
+                    </div>
+                </div>
+            </div>
+    </div>
 </body>
 
 

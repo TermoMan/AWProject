@@ -116,12 +116,34 @@ function formatMedals(puntos, format){
     });
     arr = med.map((e,i) => [e,times[i]]);
     arr.forEach(e=>{
+        index = medals.array.map(el => el.nombre).indexOf(e[0]);
         arrFin.push({
             text: e[0],
-            times: e[1]
+            times: e[1],
+            type: medals.array[index].tipo
         });
     })
     return arrFin;
+}
+
+function formatMedalsType(medP, medR, medV){
+    var type = [[],[],[]];
+    medP.forEach(e=>{
+        if(e.type === 1) type[0].push(e);
+        if(e.type === 2) type[1].push(e);
+        if(e.type === 3) type[2].push(e);
+    });
+    medR.forEach(e=>{
+        if(e.type === 1) type[0].push(e);
+        if(e.type === 2) type[1].push(e);
+        if(e.type === 3) type[2].push(e);
+    });
+    medV.forEach(e=>{
+        if(e.type === 1) type[0].push(e);
+        if(e.type === 2) type[1].push(e);
+        if(e.type === 3) type[2].push(e);
+    });
+    return type;
 }
 
 function findByTag(quests, tag){
@@ -392,6 +414,7 @@ module.exports={
                 medP = formatMedals(user.puntPreg, "votos-pregunta");
                 medR = formatMedals(user.puntResp, "votos-respuesta");
                 medV = formatMedals(user.visitPreg, "visitas");
+                medType = formatMedalsType(medP, medR, medV);
                 user = {
                     nickname: user.nickname,
                     imagen: user.imagen,
@@ -399,9 +422,7 @@ module.exports={
                     reputacion: user.reputacion,
                     numPregs: user.numPregs,
                     numResp: user.numResp,
-                    medResp: medR,
-                    medPreg: medP,
-                    medVisit: medV
+                    medals: medType
                 };
                 console.log(user);
                 response.render("userProfile", {user})

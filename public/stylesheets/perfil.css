@@ -1,0 +1,107 @@
+.float-container {
+    padding: 20px;
+    margin: auto;
+    width: 50%;
+    font-family: 'Overpass', sans-serif;
+    font-size: 140%;
+}
+
+.float-child {
+    width: 60%;
+    float: left;
+    padding: 20px;
+} 
+.float-child.m {
+    width: 40%;
+    float: left;
+    padding: 20px;
+    background-color: rgb(101, 138, 107);
+    border: 3px solid #19772f;
+    text-align: center;
+} 
+.float-container.full{
+    padding: 20px;
+    margin: auto;
+    width: 100% !important;
+    font-size: 110% !important;
+}
+.float-child.xs {
+    margin-left: 5%;
+    width: 27%;
+    float: left;
+    padding: 0 !important;
+    text-align: center;
+    
+} 
+.float-child.xxs {
+    width: 10%;
+    float: left;
+    padding: 0 !important;
+    text-align: center;
+    
+} 
+.float-child.s {
+    width: 80%;
+    float: left;
+    
+    padding: 0 !important;
+    text-align: center;
+}
+.float-container.xs{
+    padding: 0 !important;
+    margin: auto;
+    width: 110% !important;
+    font-size: 90% !important;
+}
+.li-tit.xs{
+    font-size:80% !important;
+    margin-bottom:3px;
+    padding: 10px;
+    text-align: left;
+    color:rgb(1, 255, 1); 
+    background-color: #000000;
+    border: darkgreen solid 1px;
+}
+
+.liP{
+    margin-top: 0 !important;
+}
+.num{
+    padding-top: 40%;
+}
+.backB{
+    background-color: rgb(34, 95, 25);
+    border: 3px solid #04310f;
+    text-align: center;
+    font-size: 80% !important;
+}
+#est{
+    margin-bottom: 0 !important;
+}
+#pre{
+    margin-top: 25%;
+}
+#res{
+    margin-top: 25%;
+}
+#fc1{
+    margin-top: 3%;
+}
+#fc2{
+    margin-top: 15%;
+}
+#bro{
+    border: 3px solid rgb(94, 72, 15);
+    color:black;
+    background-color: rgb(153, 118, 23);
+}
+#pla{
+    border: 3px solid rgb(97, 97, 92);
+    color:black;
+    background-color: rgb(145, 142, 135);
+}
+#oro{
+    border: 3px solid rgb(180, 132, 0);
+    color:black;
+    background-color: rgb(255, 208, 0);
+}
