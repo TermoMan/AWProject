@@ -543,6 +543,7 @@ module.exports={
                     if(err){
                         next(err);
                     } else{
+                        num = num*-1;
                         DAOQuestt.voteAnswer(id, num, function(err, result){
                             if(err){
                                 next(err);
@@ -553,7 +554,6 @@ module.exports={
                                     } else{
                                         let idVotos = id + "-votos";
                                         let puntos = result[0].puntos;
-                                        num = num*-1;
                                         updateMedalAnswer(puntos - num, puntos, "votos-respuesta", id, function(err){
                                             if(err){
                                                 console.log(err.message);
