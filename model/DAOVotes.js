@@ -2,14 +2,14 @@ const getpool = require("../config.js");
 const pool = getpool();
 class DAOVotes {
   
-  upvoteQuestion(idPregunta, idUsuario, callback) {
+  voteQuestion(idPregunta, idUsuario, voto, callback) {
     pool.getConnection(function (err, connection) {
       if (err) {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votospreg VALUES(?,?,1)",
-          [idUsuario, idPregunta],
+          "INSERT INTO votospreg VALUES(?,?,?)",
+          [idUsuario, idPregunta, voto],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
@@ -22,28 +22,6 @@ class DAOVotes {
       }
     });
   }
-
-  downvoteQuestion(idPregunta, idUsuario, callback) {
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        callback(new Error("Error pool"));
-      } else {
-        connection.query(
-          "INSERT INTO votospreg VALUES(?,?,-1)",
-          [idUsuario, idPregunta],
-          function (err, rows) {
-            connection.release(); // devolver al pool la conexión
-            if (err) {
-              callback(new Error("Error de acceso a la base de datos"));
-            } else {
-              callback(null);
-            }
-          }
-        );
-      }
-    });
-  }
-
   unvoteQuestion(idPregunta, idUsuario, callback) {
     pool.getConnection(function (err, connection) {
       if (err) {
@@ -85,35 +63,14 @@ class DAOVotes {
   });
   }
 
-  upvoteAnswer(idRespuesta, idUsuario, callback) {
+  voteAnswer(idRespuesta, idUsuario, voto, callback) {
     pool.getConnection(function (err, connection) {
       if (err) {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votosres VALUES(?,?,1)",
-          [idUsuario, idRespuesta],
-          function (err, rows) {
-            connection.release(); // devolver al pool la conexión
-            if (err) {
-              callback(new Error("Error de acceso a la base de datos"));
-            } else {
-              callback(null);
-            }
-          }
-        );
-      }
-    });
-  }
-
-  downvoteAnswer(idRespuesta, idUsuario, callback) {
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        callback(new Error("Error pool"));
-      } else {
-        connection.query(
-          "INSERT INTO votosres VALUES(?,?,-1)",
-          [idUsuario, idRespuesta],
+          "INSERT INTO votosres VALUES(?,?,?)",
+          [idUsuario, idRespuesta, voto],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
