@@ -41,6 +41,7 @@ function giveFormatQuest(result, fc){
             imagen: e.imagen,
             tags: arr
         });
+        arr = new Array();
     });
     quests.sort(function(a, b) {
         return convertirFecha(b.fecha) - convertirFecha(a.fecha);
@@ -218,6 +219,7 @@ module.exports={
                 response.render("allQuest", { quests, titulo, error: null });
             } else {
                 quests = giveFormatQuest(result, true);
+                console.log(quests);
                 response.render("allQuest", { quests, titulo, error: null });
             }
         });
@@ -227,7 +229,11 @@ module.exports={
     },
     insertQuestion(request, response, next) {
         var lbls = request.body.labels;
-        lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
+        if(lbls==='') lbls = [];
+        else{
+            lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
+        }
+        console.log(lbls);
         if(lbls.length> 5) response.render("newQuest", { error: "Tienes un máximo de 5 tags." })
         else{
             var today = new Date();

@@ -71,6 +71,7 @@ class DAOQuest {
     }
 
     insertQuest(userId, title, info, date, lbls, callback) {
+        console.log("aaaaaaaa");
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
@@ -121,6 +122,9 @@ class DAOQuest {
                                             });
                                     }
                                 });
+                        }else{
+                            connection.release();
+                            callback(null, true);
                         }
                     });
             }
