@@ -95,6 +95,35 @@ function getCommonTag(tags){
     return tagP;
 }
 
+function formatMedals(puntos, format){
+    let arr = new Array();
+    let med = new Array();
+    let times = new Array();
+    let arrFin = new Array();
+    if(puntos !== null) arr = puntos.split(',');
+    arr.forEach(e=>{
+        let num = medals.getMedalId(e,format);
+        if(num!==-1) {
+            elem = medals.array[num].nombre;
+            let i = med.indexOf(elem);
+            if(i === -1){
+                med.push(elem);
+                times.push(1);
+            }else{
+                times[i] = times[i]+1;
+            }
+        }
+    });
+    arr = med.map((e,i) => [e,times[i]]);
+    arr.forEach(e=>{
+        arrFin.push({
+            text: e[0],
+            times: e[1]
+        });
+    })
+    return arrFin;
+}
+
 function findByTag(quests, tag){
     let tagQuests = quests.filter(q => 
         q.tags.includes(tag));
@@ -128,7 +157,7 @@ function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
 }
 
 module.exports={
-    showQuestions(request, response) {
+    showQuestions(request, response, next) {
         var titulo = "Todas Las Preguntas";
         DAOQuestt.getQuestions(function(err, result) {
             let quests = new Array();
@@ -145,7 +174,7 @@ module.exports={
     formQuestion(request, response) {
         response.render("newQuest", { titulo:null, error: null });
     },
-    insertQuestion(request, response) {
+    insertQuestion(request, response, next) {
         var lbls = request.body.labels;
         lbls = lbls.split ('@').filter(function(el) {return el.length != 0});
         if(lbls.length> 5) response.render("newQuest", { error: "Tienes un máximo de 5 tags." })
@@ -179,7 +208,7 @@ module.exports={
         })
     
     },
-    insertAnswer(request, response) {
+    insertAnswer(request, response, next) {
         let idp = request.params.id;
         var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -298,7 +327,7 @@ module.exports={
             }
         });
     },
-    searchUsers(request, response) {
+    searchUsers(request, response, next) {
         let text = request.body.texto;
         var titulo = "Usuarios filtrados por "+ "\"" + text + "\"";
         DAOQuestt.getUsersText(text, function(err, result) {
@@ -316,6 +345,40 @@ module.exports={
                 response.render("users", {titulo, users });
             }
         });
+    },
+
+    viewUserInfo(request,response, next){
+        let id = request.params.id;
+        let user = null;
+        let medP = new Array();
+        let medR = new Array();
+        DAOQuestt.viewUserInfo(id, function(err,result){
+            if(err){
+                next(err);
+            } else if(!result){
+                response.render("userProfile", {user})
+            } else{
+                user = result[0];
+                d = new Date(user.fecha);
+                var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                medP = formatMedals(user.puntPreg, "votos-pregunta");
+                medR = formatMedals(user.puntResp, "votos-respuesta");
+                medV = formatMedals(user.visitPreg, "visitas");
+                user = {
+                    nickname: user.nickname,
+                    imagen: user.imagen,
+                    fecha: datestring,
+                    reputacion: user.reputacion,
+                    numPregs: user.numPregs,
+                    numResp: user.numResp,
+                    medResp: medR,
+                    medPreg: medP,
+                    medVisit: medV
+                };
+                console.log(user);
+                response.render("userProfile", {user})
+            }
+        })
     },
     //gestiona todas las opciones del boton upvote
     upVote(request, response, next){

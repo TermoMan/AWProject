@@ -249,6 +249,27 @@ class DAOQuest {
             }
         });
     }
+    viewUserInfo(id, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("SELECT (SELECT COUNT(*) FROM preguntas WHERE idusuario = ?) AS numPregs, (SELECT COUNT(*) FROM respuestas WHERE idusuario = ?) AS numResp, (SELECT GROUP_CONCAT(r.puntos) FROM respuestas r JOIN usuario u ON r.idusuario = u.idusuario WHERE u.idusuario = ?) AS puntResp, GROUP_CONCAT(pr.puntos) AS puntPreg, GROUP_CONCAT(pr.visitas) AS visitPreg, u.nickname, u.imagen, u.fecha, u.reputacion FROM usuario u LEFT JOIN preguntas pr ON pr.idusuario = u.idusuario WHERE u.idusuario=?",
+                [id,id,id,id],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else if(rows.length===0){
+                            callback(null, false);
+                        }else {
+                            callback(null, rows);
+                        }
+                    });
+            }
+        });
+    }
+    //SELECT (SELECT COUNT(*) FROM preguntas WHERE idusuario = 2) AS numPregs, (SELECT COUNT(*) FROM respuestas WHERE idusuario = 2) AS numResp, (SELECT GROUP_CONCAT(r.puntos) FROM respuestas r JOIN usuario u ON r.idusuario = u.idusuario WHERE u.idusuario = 2) AS puntResp, GROUP_CONCAT(pr.puntos) AS puntPreg, GROUP_CONCAT(pr.visitas) AS visitPreg, u.nickname, u.imagen, u.fecha, u.reputacion FROM usuario u LEFT JOIN preguntas pr ON pr.idusuario = u.idusuario WHERE u.idusuario=2;
 
     increaseVisits(idpregunta, numVisitas, callback){
         pool.getConnection(function(err, connection) {
