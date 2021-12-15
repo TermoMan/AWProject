@@ -29,6 +29,7 @@ function giveFormatQuest(result, fc){
         var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
         if(e.tags !== null) arr = e.tags.split(',');
         quests.push({
+            idusuario: e.idusuario,
             id: e.idpregunta,
             valor: e.voto,
             titulo: e.titulo,
