@@ -132,22 +132,50 @@ function findByTag(quests, tag){
 
 function updateMedalQuestions(visitasAnt, visitasNew, tipo, preg, callback){
     let accion = medals.actionmedal(visitasAnt, visitasNew, tipo);
+    let fecha = new Date()
     if(accion.action === "insert"){
-        DAOMedals.insertMedalQuestion(preg, accion.idMedal, function(err){
+        DAOMedals.insertMedalQuestion(preg, accion.idMedal, fecha, function(err){
             if(err) {
                 callback(err);
             }
         });
     }
     if(accion.action === "update"){
-        DAOMedals.updateMedalQuestion(preg, accion.idMedal, accion.idOldMedal, function(err){
+        DAOMedals.updateMedalQuestion(preg, accion.idMedal, accion.idOldMedal, fecha, function(err){
             if(err) {
                 callback(err);
             }
         });
     }
     if(accion.action === "delete"){
-        DAOMedals.deleteMedalQuestion(preg, accion.idMedal, function(err){
+        DAOMedals.deleteMedalQuestion(preg, accion.idOldMedal, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+
+}
+
+function updateMedalAnswer(votosAnt, votosNew, tipo, answer, callback){
+    let accion = medals.actionmedal(votosAnt, votosNew, tipo);
+    let fecha = new Date();
+    if(accion.action === "insert"){
+        DAOMedals.insertMedalAnswer(answer, accion.idMedal, fecha, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+    if(accion.action === "update"){
+        DAOMedals.updateMedalAnswer(answer, accion.idMedal, accion.idOldMedal, fecha, function(err){
+            if(err) {
+                callback(err);
+            }
+        });
+    }
+    if(accion.action === "delete"){
+        DAOMedals.deleteMedalAnswer(answer, accion.idOldMedal, function(err){
             if(err) {
                 callback(err);
             }
@@ -401,6 +429,11 @@ module.exports={
                                         next(err);
                                     } else{
                                         let puntos = result[0].puntos;
+                                        updateMedalQuestions(puntos + 1, puntos, "votos-pregunta", id, function(err){
+                                            if(err){
+                                                console.log(err.message);
+                                            } else console.log("Medallas actualizadas con éxito");
+                                        });
                                         response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                     }
                                 });
@@ -424,6 +457,11 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
+                                            updateMedalQuestions(puntos - 2, puntos, "votos-pregunta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                         }
                                     });
@@ -447,6 +485,11 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
+                                            updateMedalQuestions(puntos - 1, puntos, "votos-pregunta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                         }
                                     });
@@ -472,6 +515,11 @@ module.exports={
                                     } else{
                                         let idVotos = id + "-votos";
                                         let puntos = result[0].puntos;
+                                        updateMedalAnswer(puntos + 1, puntos, "votos-respuesta", id, function(err){
+                                            if(err){
+                                                console.log(err.message);
+                                            } else console.log("Medallas actualizadas con éxito");
+                                        });
                                         response.json({ resultado: puntos, idVotos: idVotos });
                                     }
                                 });
@@ -496,6 +544,11 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
+                                            updateMedalAnswer(puntos - 2, puntos, "votos-respuesta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos: idVotos });
                                         }
                                     });
@@ -520,6 +573,11 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
+                                            updateMedalAnswer(puntos - 1, puntos, "votos-respuesta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos: idVotos });
                                         }
                                     });
@@ -552,6 +610,11 @@ module.exports={
                                         next(err);
                                     } else{
                                         let puntos = result[0].puntos;
+                                        updateMedalQuestions(puntos - 1, puntos, "votos-pregunta", id, function(err){
+                                            if(err){
+                                                console.log(err.message);
+                                            } else console.log("Medallas actualizadas con éxito");
+                                        });
                                         response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                     }
                                 });
@@ -575,6 +638,11 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
+                                            updateMedalQuestions(puntos + 2, puntos, "votos-pregunta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                         }
                                     });
@@ -597,6 +665,11 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
+                                            updateMedalQuestions(puntos + 1, puntos, "votos-pregunta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                         }
                                     });
@@ -622,6 +695,11 @@ module.exports={
                                     } else{
                                         let idVotos = id + "-votos";
                                         let puntos = result[0].puntos;
+                                        updateMedalAnswer(puntos - 1, puntos, "votos-respuesta", id, function(err){
+                                            if(err){
+                                                console.log(err.message);
+                                            } else console.log("Medallas actualizadas con éxito");
+                                        });
                                         response.json({ resultado: puntos, idVotos: idVotos });
                                     }
                                 });
@@ -646,6 +724,11 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
+                                            updateMedalAnswer(puntos + 2, puntos, "votos-respuesta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos: idVotos });
                                         }
                                     });
@@ -670,6 +753,11 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
+                                            updateMedalAnswer(puntos + 1, puntos, "votos-respuesta", id, function(err){
+                                                if(err){
+                                                    console.log(err.message);
+                                                } else console.log("Medallas actualizadas con éxito");
+                                            });
                                             response.json({ resultado: puntos, idVotos: idVotos });
                                         }
                                     });

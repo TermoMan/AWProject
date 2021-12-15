@@ -68,8 +68,10 @@ function actionmedal(dataOld, dataNew, tipo){
     
     if(oldMedal != newMedal){
         if(newMedal === -1) action = "delete";
+        else {
         if(oldMedal === -1) action = "insert";
         else action = "update";
+        }   
     }
 
     return {action: action,idMedal: newMedal, idOldMedal:oldMedal};
