@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2021 a las 21:25:56
+-- Tiempo de generación: 15-12-2021 a las 21:45:56
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -66,9 +66,9 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`idpregunta`, `idusuario`, `titulo`, `cuerpo`, `fecha`, `puntos`, `visitas`) VALUES
-(19, 13, '¿Cual es la diferencia entre position: relative, position: absolute y position: fixed?', 'Sé que estas propiedades de CSS sirven para posicionar un elemento dentro de la página. Sé\r\nque estas propiedades de CSS sirven para posicionar un elemento dentro de la página.', '2021-12-15', 0, 4),
+(19, 13, '¿Cual es la diferencia entre position: relative, position: absolute y position: fixed?', 'Sé que estas propiedades de CSS sirven para posicionar un elemento dentro de la página. Sé\r\nque estas propiedades de CSS sirven para posicionar un elemento dentro de la página.', '2021-12-15', 0, 0),
 (20, 17, '¿Qué es la inyección SQL y cómo puedo evitarla?', 'He encontrado bastantes preguntas en StackOverflow sobre programas o formularios web que\r\nguardan información en una base de datos (especialmente en PHP y MySQL) y que contienen\r\ngraves problemas de seguridad relacionados principalmente con la inyección SQL.\r\nNormalmente dejo un comentario y/o un enlace a una referencia externa, pero un comentario\r\nno da mucho espacio para mucho y sería positivo que hubiera una referencia interna en SOes\r\nsobre el tema así que decidí escribir esta pregunta.', '2021-12-15', 0, 0),
-(21, 14, '¿Cómo funciona exactamente nth-child?', 'No acabo de comprender muy bien que hace exactamente y qué usos prácticos puede tener.', '2021-12-15', 0, 4),
+(21, 14, '¿Cómo funciona exactamente nth-child?', 'No acabo de comprender muy bien que hace exactamente y qué usos prácticos puede tener.', '2021-12-15', 0, 0),
 (22, 15, 'Diferencias entre == y === (comparaciones en JavaScript)', 'Siempre he visto que en JavaScript hay:\r\nasignaciones =\r\ncomparaciones == y ===\r\nCreo entender que == hace algo parecido a comparar el valor de la variable y el === también\r\ncompara el tipo (como un equals de java).', '2021-12-15', 0, 0),
 (23, 16, 'Problema con asincronismo en Node', 'Soy nueva en Node... Tengo una modulo que conecta a una BD de postgres por medio de pgnode. En eso no tengo problemas. Mi problema es que al llamar a ese modulo, desde otro\r\nmodulo, y despues querer usar los datos que salieron de la BD me dice undefined... Estoy casi\r\nseguro que es porque la conexion a la BD devuelve una promesa, y los datos no estan\r\ndisponibles al momento de usarlos.\r\n', '2021-12-15', 0, 0);
 
@@ -112,7 +112,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('956UDFuvR-xT7MiZ9JoJ0ocJ8ZxCX4fR', 1639685693, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"marta@404.es\",\"password\":\"Aa1234\",\"name\":\"Marta\",\"userId\":16,\"image\":\"ACQP74GDK5E6RJGKX5RGIWCJTA.jpg\",\"date\":\"2021-12-14T23:00:00.000Z\",\"reputation\":1}');
+('956UDFuvR-xT7MiZ9JoJ0ocJ8ZxCX4fR', 1639687370, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"marta@404.es\",\"password\":\"Aa1234\",\"name\":\"Marta\",\"userId\":16,\"image\":\"ACQP74GDK5E6RJGKX5RGIWCJTA.jpg\",\"date\":\"2021-12-14T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
