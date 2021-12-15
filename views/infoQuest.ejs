@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="container" id=respuestas>
-                <% if(preg.respuesta[preg.respuesta.length -1].respuesta === null) { %>
+                <% if(!preg.respuesta.length === 0) { %>
                 <% } else { %>
                 <p id="pregs"><%=preg.respuesta.length %> Respuestas</p>
                 <div class="col">

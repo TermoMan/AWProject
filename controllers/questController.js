@@ -341,7 +341,7 @@ module.exports={
                     }
                     else if(!result){
                         preg.respuesta = new Array();
-                        console.log(preg.tags);
+                        console.log(preg.respuesta);
                         response.render("infoQuest", {preg});
                     } 
                     else{
