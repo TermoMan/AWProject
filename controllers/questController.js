@@ -467,7 +467,7 @@ module.exports={
                                         next(err);
                                     } else{
                                         let puntos = result[0].puntos;
-                                        updateMedalQuestions(puntos + num, puntos, "votos-pregunta", id, function(err){
+                                        updateMedalQuestions(puntos - num, puntos, "votos-pregunta", id, function(err){
                                             if(err){
                                                 console.log(err.message);
                                             } else console.log("Medallas actualizadas con éxito");
@@ -510,7 +510,7 @@ module.exports={
                     });
                 }
                 else{
-                    DAOVotes.upvoteQuestion(id, usuario, function(err){
+                    DAOVotes.voteQuestion(id, usuario, num, function(err){
                         if(err){
                             next(err);
                         } else{
@@ -543,7 +543,6 @@ module.exports={
                     if(err){
                         next(err);
                     } else{
-                        num = num*-1;
                         DAOQuestt.voteAnswer(id, num, function(err, result){
                             if(err){
                                 next(err);
@@ -555,7 +554,7 @@ module.exports={
                                         let idVotos = id + "-votos";
                                         let puntos = result[0].puntos;
                                         num = num*-1;
-                                        updateMedalAnswer(puntos + num, puntos, "votos-respuesta", id, function(err){
+                                        updateMedalAnswer(puntos - num, puntos, "votos-respuesta", id, function(err){
                                             if(err){
                                                 console.log(err.message);
                                             } else console.log("Medallas actualizadas con éxito");
@@ -599,7 +598,7 @@ module.exports={
                     });
                 }
                 else{
-                    DAOVotes.upvoteAnswer(id, usuario, function(err){
+                    DAOVotes.voteAnswer(id, usuario, num, function(err){
                         console.log(id);
                         if(err){
                             next(err);
