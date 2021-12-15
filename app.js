@@ -1,7 +1,5 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var mysqlsession = require('express-mysql-session');
@@ -18,7 +16,6 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var sessionStore = new MySQLStore({
@@ -65,6 +62,7 @@ app.use(function (request, response, next) {
     response.status(404);
     response.render("error", { status: 404, message: "Esa página no existe" });
 });
+
 
 
 
