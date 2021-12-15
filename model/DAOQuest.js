@@ -179,7 +179,7 @@ class DAOQuest {
             if (err) {
                 callback(new Error("Error pool"));
             }else {
-                connection.query("INSERT INTO respuestas (respuesta, idusuario, idpregunta, puntuacion, fecha) VALUES (?,?,?,0,?)",
+                connection.query("INSERT INTO respuestas (respuesta, idusuario, idpregunta, puntos, fecha) VALUES (?,?,?,0,?)",
                 [respuesta, userID, idp, date,],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2021 a las 02:58:15
+-- Tiempo de generación: 15-12-2021 a las 21:25:56
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -66,13 +66,11 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`idpregunta`, `idusuario`, `titulo`, `cuerpo`, `fecha`, `puntos`, `visitas`) VALUES
-(1, 1, 'a', 'a', '2021-11-23', 0, 0),
-(13, 2, 'paaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-10', 0, 0),
-(14, 2, 'pssssssss', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-10-06', 0, 0),
-(15, 2, 'saaaaaaaaaa', 'asssssssasas', '2021-08-05', 0, 0),
-(16, 2, 'termo es un crack?', 'no se sabe, que opinais?', '2021-11-25', 0, 0),
-(17, 1, '150caracteres', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-12-08', 0, 0),
-(18, 1, 'Pregunta seria', 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en\r\nla parte superior izquierda y la identificación del usuario situada en la parte superior derecha.\r\n4\r\nLa identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará\r\nla página de perfil de usuario (figura 10).\r\nEl menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica\r\nsu funcionamiento.\r\nDebajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las\r\npalabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena\r\nla búsqueda.\r\n', '2021-12-08', 0, 0);
+(19, 13, '¿Cual es la diferencia entre position: relative, position: absolute y position: fixed?', 'Sé que estas propiedades de CSS sirven para posicionar un elemento dentro de la página. Sé\r\nque estas propiedades de CSS sirven para posicionar un elemento dentro de la página.', '2021-12-15', 0, 4),
+(20, 17, '¿Qué es la inyección SQL y cómo puedo evitarla?', 'He encontrado bastantes preguntas en StackOverflow sobre programas o formularios web que\r\nguardan información en una base de datos (especialmente en PHP y MySQL) y que contienen\r\ngraves problemas de seguridad relacionados principalmente con la inyección SQL.\r\nNormalmente dejo un comentario y/o un enlace a una referencia externa, pero un comentario\r\nno da mucho espacio para mucho y sería positivo que hubiera una referencia interna en SOes\r\nsobre el tema así que decidí escribir esta pregunta.', '2021-12-15', 0, 0),
+(21, 14, '¿Cómo funciona exactamente nth-child?', 'No acabo de comprender muy bien que hace exactamente y qué usos prácticos puede tener.', '2021-12-15', 0, 4),
+(22, 15, 'Diferencias entre == y === (comparaciones en JavaScript)', 'Siempre he visto que en JavaScript hay:\r\nasignaciones =\r\ncomparaciones == y ===\r\nCreo entender que == hace algo parecido a comparar el valor de la variable y el === también\r\ncompara el tipo (como un equals de java).', '2021-12-15', 0, 0),
+(23, 16, 'Problema con asincronismo en Node', 'Soy nueva en Node... Tengo una modulo que conecta a una BD de postgres por medio de pgnode. En eso no tengo problemas. Mi problema es que al llamar a ese modulo, desde otro\r\nmodulo, y despues querer usar los datos que salieron de la BD me dice undefined... Estoy casi\r\nseguro que es porque la conexion a la BD devuelve una promesa, y los datos no estan\r\ndisponibles al momento de usarlos.\r\n', '2021-12-15', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -94,9 +92,8 @@ CREATE TABLE `respuestas` (
 --
 
 INSERT INTO `respuestas` (`idrespuesta`, `respuesta`, `idusuario`, `idpregunta`, `puntos`, `fecha`) VALUES
-(2, 'adios', 1, 13, 0, '2021-12-10'),
-(3, 'mirespuesta', 1, 18, 0, '2021-12-11'),
-(4, 'En la figura 3 se muestra la página principal del sitio. Se puede observar que dispone de un menú situado en la parte superior izquierda y la identificación del usuario situada en la parte superior derecha. 4 La identificación del usuario contiene el nombre y la imagen de perfil. Al pulsar sobre el nombre, se mostrará la página de perfil de usuario (figura 10). El menú tiene tres opciones: “Preguntas”, “Sin responder” y “Usuarios”. En los siguientes apartados se explica su funcionamiento. Debajo del menú, se sitúa la barra de búsqueda formada por un campo de texto que permite definir las palabras por las que se quiere buscar en la base de datos de preguntas y el botón “Buscar” que desencadena la búsqueda.', 1, 18, 0, '2021-12-11');
+(5, 'La propiedad position sirve para posicionar un elemento dentro de la página. Sin embargo,\r\ndependiendo de cual sea la propiedad que usemos, el elemento tomará una referencia u otra\r\npara posicionarse respecto a ella.\r\nLos posibles valores que puede adoptar la propiedad position son: static | relative | absolute |\r\nfixed | inherit | initial.', 17, 19, 0, '2021-12-15'),
+(6, 'La pseudoclase :nth-child() selecciona los hermanos que cumplan cierta condición definida en\r\nla fórmula an + b. a y b deben ser números enteros, n es un contador. El grupo an representa\r\nun ciclo, cada cuantos elementos se repite; b indica desde donde empezamos a contar.\r\n', 19, 21, 0, '2021-12-15');
 
 -- --------------------------------------------------------
 
@@ -115,9 +112,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('VqR4P7zVUs96hIwWpB-4L_6v3_NNEfbP', 1639543377, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"qqq\",\"password\":\"123\",\"name\":\"qqq\",\"userId\":3,\"image\":\"nico.png\",\"date\":\"2021-12-05T23:00:00.000Z\",\"reputation\":1}'),
-('iEGvqeYS_iPJ7bwsNnDdY9QaOpPsbLwq', 1639618555, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"aaa\",\"password\":\"1Aaaaa\",\"name\":\"asas\",\"userId\":10,\"image\":\"nico.png\",\"date\":\"2021-12-05T23:00:00.000Z\",\"reputation\":1}'),
-('z23dJ3t66uP1HA6WBG1AG-naWuKdp4FR', 1639619778, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"aaa\",\"password\":\"1Aaaaa\",\"name\":\"asas\",\"userId\":10,\"image\":\"nico.png\",\"date\":\"2021-12-05T23:00:00.000Z\",\"reputation\":1}');
+('956UDFuvR-xT7MiZ9JoJ0ocJ8ZxCX4fR', 1639685693, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"email\":\"marta@404.es\",\"password\":\"Aa1234\",\"name\":\"Marta\",\"userId\":16,\"image\":\"ACQP74GDK5E6RJGKX5RGIWCJTA.jpg\",\"date\":\"2021-12-14T23:00:00.000Z\",\"reputation\":1}');
 
 -- --------------------------------------------------------
 
@@ -135,14 +130,14 @@ CREATE TABLE `tagpreg` (
 --
 
 INSERT INTO `tagpreg` (`idpregunta`, `idtag`) VALUES
-(14, 27),
-(14, 28),
-(15, 27),
-(15, 28),
-(16, 27),
-(16, 28),
-(17, 32),
-(18, 33);
+(19, 34),
+(19, 35),
+(20, 36),
+(20, 37),
+(21, 34),
+(21, 38),
+(22, 40),
+(23, 41);
 
 -- --------------------------------------------------------
 
@@ -160,10 +155,13 @@ CREATE TABLE `tags` (
 --
 
 INSERT INTO `tags` (`idtag`, `texto`) VALUES
-(32, '150'),
-(27, 'jaja'),
-(28, 'pepeeeee'),
-(33, 'seria');
+(34, 'css'),
+(35, 'css3'),
+(38, 'html'),
+(40, 'JavaScript'),
+(36, 'mysql'),
+(41, 'nodejs'),
+(37, 'sql');
 
 -- --------------------------------------------------------
 
@@ -176,7 +174,7 @@ CREATE TABLE `usuario` (
   `correo` varchar(50) NOT NULL,
   `contraseña` varchar(50) NOT NULL,
   `nickname` varchar(20) NOT NULL,
-  `imagen` varchar(50) DEFAULT NULL,
+  `imagen` varchar(1000) DEFAULT NULL,
   `fecha` date NOT NULL,
   `reputacion` int(100) NOT NULL DEFAULT 1,
   `activo` tinyint(1) NOT NULL
@@ -187,18 +185,12 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idusuario`, `correo`, `contraseña`, `nickname`, `imagen`, `fecha`, `reputacion`, `activo`) VALUES
-(1, 'a', 'a', 'aaa', 'a', '2021-11-23', 1, 1),
-(2, 'hola', 'hola', 'hola', 'kuroko.png', '2021-12-05', 1, 1),
-(3, 'qqq', '123', 'qqq', 'nico.png', '2021-12-06', 1, 1),
-(4, 'ass', 'aaa', 'sasasa', 'defecto2.png', '2021-12-06', 1, 1),
-(5, 'asasa', 'sasa', 'sasa', 'kuroko.png', '2021-12-06', 1, 1),
-(6, 'sasa', 'sss', 'sasas', 'defecto3.png', '2021-12-06', 1, 1),
-(7, 'xzxzx', 'aaa', 'zxzx', 'kuroko.png', '2021-12-06', 1, 1),
-(8, 'asasas', '1qwertY', 'sasas', 'sfg.png', '2021-12-06', 1, 1),
-(9, 'dsds', '1Qwert', 'sasas', 'marta.png', '2021-12-06', 1, 1),
-(10, 'aaa', '1Aaaaa', 'asas', 'nico.png', '2021-12-06', 1, 1),
-(11, 'dfdffd', '1Qqqqq', 'fdfdf', 'nico.png', '2021-12-06', 1, 1),
-(12, 'sasasa', '1Qqqqqq', 'aas', 'roberto.png', '2021-12-06', 1, 1);
+(13, 'nico@404.es', 'Aa1234', 'Nico', '15861269099197.jpg', '2021-12-15', 1, 1),
+(14, 'roberto@404.es', 'Aa1234', 'Roberto', 'FhTCnY83_400x400.jpg', '2021-12-15', 1, 1),
+(15, 'sfg@404.es', 'Aa1234', 'SFG', 'tomas_roncero.png', '2021-12-15', 1, 1),
+(16, 'marta@404.es', 'Aa1234', 'Marta', 'ACQP74GDK5E6RJGKX5RGIWCJTA.jpg', '2021-12-15', 1, 1),
+(17, 'lucas@404.es', 'Aa1234', 'Lucas', 'LYWGGXLWBFFETBWY5HGU5C7IDA.jpg', '2021-12-15', 1, 1),
+(19, 'emy@404.es', 'Aa1234', 'Emy', '8650069c-b263-45b8-9cdb-91e004e6c130_16-9-aspect-ratio_default_0.jpg', '2021-12-15', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -305,25 +297,25 @@ ALTER TABLE `votosres`
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `idpregunta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idpregunta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idrespuesta` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `idtag` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `idtag` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idusuario` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
