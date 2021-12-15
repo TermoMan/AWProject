@@ -17,7 +17,7 @@ module.exports = {
                 console.log(err);
                 response.render("login", { error: "Error interno de acceso a la base de datos" });
             } else if (!result) {
-                response.render("login", { error: "No existe el usuario" });
+                response.render("login", { error: "No existe el usuario/ contraseña incorrecta" });
             } else {
                 request.session.email = result[0].correo;
                 request.session.password = request.body.password;
