@@ -30,6 +30,7 @@ function giveFormatQuest(result, fc){
         if(e.tags !== null) arr = e.tags.split(',');
         quests.push({
             id: e.idpregunta,
+            valor: e.voto,
             titulo: e.titulo,
             cuerpo: e.cuerpo,
             fecha: datestring,
@@ -225,7 +226,7 @@ module.exports={
         console.log(id);
         var visitas;
         //obetener toda la informacion de una pregunta 
-        DAOQuestt.get1Preg(id, function(err, result) {
+        DAOQuestt.get1Preg(id, response.locals.userId, function(err, result) {
             let preg = new Array();
             if (err) {
                 next(err);
@@ -254,7 +255,7 @@ module.exports={
                         result.forEach(e => {
                             d = new Date(e.fecha);
                             var date = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-                            resp.push({idrespuesta: e.idrespuesta, respuesta: e.respuesta, positivo: e.puntos, fecha: date, imagen: e.imagen, nickname: e.nickname});
+                            resp.push({idrespuesta: e.idrespuesta, respuesta: e.respuesta, positivo: e.positivo, votos: e.puntos, fecha: date, imagen: e.imagen, nickname: e.nickname});
                         });
                         preg.respuesta = resp;
                         response.render("infoQuest", {preg});
@@ -322,129 +323,9 @@ module.exports={
         let id = request.body.id;
         let pressed = request.body.pressed;
         let negative = request.body.negative;
-        if(!pressed){
-            DAOVotes.unvoteQuestion(id, usuario, function(err){
-                if(err){
-                    next(err);
-                } else{
-                    DAOQuestt.voteQuestion(id, -1, function(err, result){
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.getVotesQuestion(id, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    let puntos = result[0].puntos;
-                                    response.json({ resultado: puntos });
-                                }
-                            });
-                        }
-                    });
-                } 
-            });
-        }
-        else{           
-            if(negative){
-                DAOVotes.updatevoteQuestion(id, usuario, true, function(err){
-                    if(err){
-                        next(err);
-                    } else{
-                        DAOQuestt.voteQuestion(id, 2, function(err, result){
-                            if(err){
-                                next(err);
-                            } else{
-                                DAOQuestt.getVotesQuestion(id, function(err, result){
-                                    if(err){
-                                        next(err);
-                                    } else{
-                                        let puntos = result[0].puntos;
-                                        response.json({ resultado: puntos });
-                                    }
-                                });
-                            }
-                        });
-                    } 
-                });
-            }
-            else{
-                DAOVotes.upvoteQuestion(id, usuario, function(err){
-                    console.log(id);
-                    if(err){
-                        next(err);
-                    } else{
-                        DAOQuestt.voteQuestion(id, 1, function(err, result){
-                            if(err){
-                                next(err);
-                            } else{
-                                DAOQuestt.getVotesQuestion(id, function(err, result){
-                                    if(err){
-                                        next(err);
-                                    } else{
-                                        let puntos = result[0].puntos;
-                                        response.json({ resultado: puntos });
-                                    }
-                                });
-                            }
-                        });
-                    } 
-                });
-            }
-        } 
-    },
-    //gestiona todas las opciones del boton downvote
-    downVote(request, response, next){
-        let usuario = response.locals.userId;
-        let id = request.body.id;
-        let pressed = request.body.pressed;
-        let positive = request.body.positive;
-        if(!pressed){
-            DAOVotes.unvoteQuestion(id, usuario, function(err){
-                if(err){
-                    next(err);
-                } else{
-                    DAOQuestt.voteQuestion(id, 1, function(err, result){
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.getVotesQuestion(id, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    let puntos = result[0].puntos;
-                                    response.json({ resultado: puntos });
-                                }
-                            });
-                        }
-                    });
-                } 
-            });
-        }
-        else{           
-            if(positive){
-                DAOVotes.updatevoteQuestion(id, usuario, false, function(err){
-                    if(err){
-                        next(err);
-                    } else{
-                        DAOQuestt.voteQuestion(id, -2, function(err, result){
-                            if(err){
-                                next(err);
-                            } else{
-                                DAOQuestt.getVotesQuestion(id, function(err, result){
-                                    if(err){
-                                        next(err);
-                                    } else{
-                                        let puntos = result[0].puntos;
-                                        response.json({ resultado: puntos });
-                                    }
-                                });
-                            }
-                        });
-                    } 
-                });
-            }
-            else{
-                DAOVotes.downvoteQuestion(id, usuario, function(err){
+        if(request.body.question){
+            if(!pressed){
+                DAOVotes.unvoteQuestion(id, usuario, function(err){
                     if(err){
                         next(err);
                     } else{
@@ -457,7 +338,7 @@ module.exports={
                                         next(err);
                                     } else{
                                         let puntos = result[0].puntos;
-                                        response.json({ resultado: puntos });
+                                        response.json({ resultado: puntos, idVotos:"pregPuntos" });
                                     }
                                 });
                             }
@@ -465,6 +346,276 @@ module.exports={
                     } 
                 });
             }
-        } 
+            else{           
+                if(negative){
+                    DAOVotes.updatevoteQuestion(id, usuario, 1, function(err){
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteQuestion(id, 2, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesQuestion(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+                else{
+                    DAOVotes.upvoteQuestion(id, usuario, function(err){
+                        console.log(id);
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteQuestion(id, 1, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesQuestion(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+            }
+        } else{
+            if(!pressed){
+                DAOVotes.unvoteAnswer(id, usuario, function(err){
+                    if(err){
+                        next(err);
+                    } else{
+                        DAOQuestt.voteAnswer(id, -1, function(err, result){
+                            if(err){
+                                next(err);
+                            } else{
+                                DAOQuestt.getVotesAnswer(id, function(err, result){
+                                    if(err){
+                                        next(err);
+                                    } else{
+                                        let idVotos = id + "-votos";
+                                        let puntos = result[0].puntos;
+                                        response.json({ resultado: puntos, idVotos: idVotos });
+                                    }
+                                });
+                            }
+                        });
+                    } 
+                });
+            }
+            else{           
+                if(negative){
+                    DAOVotes.updatevoteAnswer(id, usuario, 1, function(err){
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteAnswer(id, 2, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesAnswer(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let idVotos = id + "-votos";
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos: idVotos });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+                else{
+                    DAOVotes.upvoteAnswer(id, usuario, function(err){
+                        console.log(id);
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteAnswer(id, 1, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesAnswer(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let idVotos = id + "-votos";
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos: idVotos });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+            }
+        }
+    },
+    //gestiona todas las opciones del boton downvote
+    downVote(request, response, next){
+        let usuario = response.locals.userId;
+        let id = request.body.id;
+        let pressed = request.body.pressed;
+        let positive = request.body.positive;
+        if(request.body.question){
+            if(!pressed){
+                DAOVotes.unvoteQuestion(id, usuario, function(err){
+                    if(err){
+                        next(err);
+                    } else{
+                        DAOQuestt.voteQuestion(id, 1, function(err, result){
+                            if(err){
+                                next(err);
+                            } else{
+                                DAOQuestt.getVotesQuestion(id, function(err, result){
+                                    if(err){
+                                        next(err);
+                                    } else{
+                                        let puntos = result[0].puntos;
+                                        response.json({ resultado: puntos, idVotos:"pregPuntos" });
+                                    }
+                                });
+                            }
+                        });
+                    } 
+                });
+            }
+            else{           
+                if(positive){
+                    DAOVotes.updatevoteQuestion(id, usuario, -1, function(err){
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteQuestion(id, -2, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesQuestion(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+                else{
+                    DAOVotes.downvoteQuestion(id, usuario, function(err){
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteQuestion(id, -1, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesQuestion(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+            }
+        } else{
+            if(!pressed){
+                DAOVotes.unvoteAnswer(id, usuario, function(err){
+                    if(err){
+                        next(err);
+                    } else{
+                        DAOQuestt.voteAnswer(id, 1, function(err, result){
+                            if(err){
+                                next(err);
+                            } else{
+                                DAOQuestt.getVotesAnswer(id, function(err, result){
+                                    if(err){
+                                        next(err);
+                                    } else{
+                                        let idVotos = id + "-votos";
+                                        let puntos = result[0].puntos;
+                                        response.json({ resultado: puntos, idVotos: idVotos });
+                                    }
+                                });
+                            }
+                        });
+                    } 
+                });
+            }
+            else{           
+                if(positive){
+                    DAOVotes.updatevoteAnswer(id, usuario, -1, function(err){
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteAnswer(id, -2, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesAnswer(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let idVotos = id + "-votos";
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos: idVotos });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+                else{
+                    DAOVotes.downvoteAnswer(id, usuario, function(err){
+                        console.log(id);
+                        if(err){
+                            next(err);
+                        } else{
+                            DAOQuestt.voteAnswer(id, -1, function(err, result){
+                                if(err){
+                                    next(err);
+                                } else{
+                                    DAOQuestt.getVotesAnswer(id, function(err, result){
+                                        if(err){
+                                            next(err);
+                                        } else{
+                                            let idVotos = id + "-votos";
+                                            let puntos = result[0].puntos;
+                                            response.json({ resultado: puntos, idVotos: idVotos });
+                                        }
+                                    });
+                                }
+                            });
+                        } 
+                    });
+                }
+            }
+        }  
     }
 }

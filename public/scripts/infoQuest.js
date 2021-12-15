@@ -13,7 +13,7 @@ function sendUp(idUp, pressed, negative){
 
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
-    $("#pregPuntos").text("Votos: " + data.resultado);
+    $("#"+ data.idVotos).text("Votos: " + data.resultado);
     },
     // En caso de error, mostrar el error producido
     error: function (jqXHR, textStatus, errorThrown) {
@@ -34,7 +34,7 @@ function sendDown(idDown, pressed, positive){
     data: JSON.stringify({id: $(idDown).data("idOg"), pressed: pressed, positive: positive, question: $(idDown).data("question")}),
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
-    $("#pregPuntos").text("Votos: " + data.resultado);
+    $("#" + data.idVotos).text("Votos: " + data.resultado);
     },
     // En caso de error, mostrar el error producido
     error: function (jqXHR, textStatus, errorThrown) {

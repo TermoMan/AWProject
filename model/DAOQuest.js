@@ -26,12 +26,12 @@ class DAOQuest {
             }
         });
     }
-    get1Preg(id, callback) {
+    get1Preg(id, idusuario, callback) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 callback(new Error("Error pool"));
             } else {
-                connection.query("SELECT pr.idpregunta, pr.titulo, pr.cuerpo, pr.fecha, pr.visitas, pr.puntos, GROUP_CONCAT(t.texto) AS tags, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.idpregunta = ? GROUP BY pr.idpregunta", [id],
+                connection.query("SELECT pr.idpregunta, (SELECT positivo FROM votospreg WHERE idpregunta = pr.idpregunta AND idusuario = ?) AS voto, pr.titulo, pr.cuerpo, pr.fecha, pr.visitas, pr.puntos, GROUP_CONCAT(t.texto) AS tags, u.nickname, u.imagen FROM (((preguntas pr LEFT JOIN tagpreg tp ON pr.idpregunta = tp.idpregunta) LEFT JOIN tags t ON t.idtag=tp.idtag) LEFT JOIN usuario u ON pr.idusuario = u.idusuario) WHERE pr.idpregunta = ? GROUP BY pr.idpregunta", [idusuario, id],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
@@ -295,6 +295,44 @@ class DAOQuest {
             }else {
                 connection.query("Select puntos FROM preguntas WHERE idpregunta = ?",
                 [idpregunta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, rows);
+                        }
+                    });
+            }
+        });
+    }
+
+    voteAnswer(idrespuesta, voto, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("UPDATE respuestas SET puntos = puntos + ? WHERE idrespuesta = ?",
+                [voto, idrespuesta],
+                    function(err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        } else {
+                            callback(null, rows);
+                        }
+                    });
+            }
+        });
+    }
+
+    getVotesAnswer(idrespuesta, callback){
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                callback(new Error("Error pool"));
+            }else {
+                connection.query("Select puntos FROM respuestas WHERE idrespuesta = ?",
+                [idrespuesta],
                     function(err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {

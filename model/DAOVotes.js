@@ -8,7 +8,7 @@ class DAOVotes {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votospreg VALUES(?,?,true)",
+          "INSERT INTO votospreg VALUES(?,?,1)",
           [idUsuario, idPregunta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -29,7 +29,7 @@ class DAOVotes {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votospreg VALUES(?,?,false)",
+          "INSERT INTO votospreg VALUES(?,?,-1)",
           [idUsuario, idPregunta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -91,7 +91,7 @@ class DAOVotes {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votosres VALUES(?,?,true)",
+          "INSERT INTO votosres VALUES(?,?,1)",
           [idUsuario, idRespuesta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -112,7 +112,7 @@ class DAOVotes {
         callback(new Error("Error pool"));
       } else {
         connection.query(
-          "INSERT INTO votosres VALUES(?,?,false)",
+          "INSERT INTO votosres VALUES(?,?,-1)",
           [idUsuario, idRespuesta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -147,5 +147,26 @@ class DAOVotes {
       }
     });
   }
+
+  updatevoteAnswer(idRespuesta, idUsuario, positivo, callback){
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(new Error("Error pool"));
+      } else {
+        connection.query(
+          "UPDATE votosres SET positivo = ? WHERE idusuario= ? AND idrespuesta=?",
+          [positivo, idUsuario, idRespuesta],
+          function (err, rows) {
+            connection.release(); // devolver al pool la conexión
+            if (err) {
+              callback(new Error("Error de acceso a la base de datos"));
+            } else {
+              callback(null);
+            }
+          }
+        );
+      }
+    });
+    }
 }
 module.exports = DAOVotes;
