@@ -94,6 +94,35 @@ function getCommonTag(tags){
     return tagP;
 }
 
+function formatMedals(puntos, format){
+    let arr = new Array();
+    let med = new Array();
+    let times = new Array();
+    let arrFin = new Array();
+    if(puntos !== null) arr = puntos.split(',');
+    arr.forEach(e=>{
+        let num = medals.getMedalId(e,format);
+        if(num!==-1) {
+            elem = medals.array[num].nombre;
+            let i = med.indexOf(elem);
+            if(i === -1){
+                med.push(elem);
+                times.push(1);
+            }else{
+                times[i] = times[i]+1;
+            }
+        }
+    });
+    arr = med.map((e,i) => [e,times[i]]);
+    arr.forEach(e=>{
+        arrFin.push({
+            text: e[0],
+            times: e[1]
+        });
+    })
+    return arrFin;
+}
+
 function findByTag(quests, tag){
     let tagQuests = quests.filter(q => 
         q.tags.includes(tag));
@@ -320,6 +349,8 @@ module.exports={
     viewUserInfo(request,response, next){
         let id = request.params.id;
         let user = null;
+        let medP = new Array();
+        let medR = new Array();
         DAOQuestt.viewUserInfo(id, function(err,result){
             if(err){
                 next(err);
@@ -329,6 +360,9 @@ module.exports={
                 user = result[0];
                 d = new Date(user.fecha);
                 var datestring = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                medP = formatMedals(user.puntPreg, "votos-pregunta");
+                medR = formatMedals(user.puntResp, "votos-respuesta");
+                medV = formatMedals(user.visitPreg, "visitas");
                 user = {
                     nickname: user.nickname,
                     imagen: user.imagen,
@@ -336,10 +370,11 @@ module.exports={
                     reputacion: user.reputacion,
                     numPregs: user.numPregs,
                     numResp: user.numResp,
-                    puntResp: user.puntResp,
-                    puntPreg: user.puntPreg,
-                    visitPreg: user.visitPreg
+                    medResp: medR,
+                    medPreg: medP,
+                    medVisit: medV
                 };
+                console.log(user);
                 response.render("userProfile", {user})
             }
         })
