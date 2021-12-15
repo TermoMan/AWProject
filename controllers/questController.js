@@ -431,18 +431,20 @@ module.exports={
         })
     },
     //gestiona todas las opciones del boton upvote
-    upVote(request, response, next){
+    vote(request, response, next){
         let usuario = response.locals.userId;
         let id = request.body.id;
         let pressed = request.body.pressed;
-        let negative = request.body.negative;
+        let oposite = request.body.oposite;
+        let num = request.body.change;
         if(request.body.question){
             if(!pressed){
                 DAOVotes.unvoteQuestion(id, usuario, function(err){
                     if(err){
                         next(err);
                     } else{
-                        DAOQuestt.voteQuestion(id, -1, function(err, result){
+                        num = num* -1;
+                        DAOQuestt.voteQuestion(id, num, function(err, result){
                             if(err){
                                 next(err);
                             } else{
@@ -451,7 +453,7 @@ module.exports={
                                         next(err);
                                     } else{
                                         let puntos = result[0].puntos;
-                                        updateMedalQuestions(puntos + 1, puntos, "votos-pregunta", id, function(err){
+                                        updateMedalQuestions(puntos + num, puntos, "votos-pregunta", id, function(err){
                                             if(err){
                                                 console.log(err.message);
                                             } else console.log("Medallas actualizadas con éxito");
@@ -465,12 +467,13 @@ module.exports={
                 });
             }
             else{           
-                if(negative){
-                    DAOVotes.updatevoteQuestion(id, usuario, 1, function(err){
+                if(oposite){
+                    DAOVotes.updatevoteQuestion(id, usuario, num, function(err){
                         if(err){
                             next(err);
                         } else{
-                            DAOQuestt.voteQuestion(id, 2, function(err, result){
+                            num = num *2;
+                            DAOQuestt.voteQuestion(id, num, function(err, result){
                                 if(err){
                                     next(err);
                                 } else{
@@ -479,7 +482,7 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
-                                            updateMedalQuestions(puntos - 2, puntos, "votos-pregunta", id, function(err){
+                                            updateMedalQuestions(puntos - num, puntos, "votos-pregunta", id, function(err){
                                                 if(err){
                                                     console.log(err.message);
                                                 } else console.log("Medallas actualizadas con éxito");
@@ -494,11 +497,10 @@ module.exports={
                 }
                 else{
                     DAOVotes.upvoteQuestion(id, usuario, function(err){
-                        console.log(id);
                         if(err){
                             next(err);
                         } else{
-                            DAOQuestt.voteQuestion(id, 1, function(err, result){
+                            DAOQuestt.voteQuestion(id, num, function(err, result){
                                 if(err){
                                     next(err);
                                 } else{
@@ -507,7 +509,7 @@ module.exports={
                                             next(err);
                                         } else{
                                             let puntos = result[0].puntos;
-                                            updateMedalQuestions(puntos - 1, puntos, "votos-pregunta", id, function(err){
+                                            updateMedalQuestions(puntos - num, puntos, "votos-pregunta", id, function(err){
                                                 if(err){
                                                     console.log(err.message);
                                                 } else console.log("Medallas actualizadas con éxito");
@@ -527,7 +529,8 @@ module.exports={
                     if(err){
                         next(err);
                     } else{
-                        DAOQuestt.voteAnswer(id, -1, function(err, result){
+                        num = num*-1;
+                        DAOQuestt.voteAnswer(id, num, function(err, result){
                             if(err){
                                 next(err);
                             } else{
@@ -537,7 +540,8 @@ module.exports={
                                     } else{
                                         let idVotos = id + "-votos";
                                         let puntos = result[0].puntos;
-                                        updateMedalAnswer(puntos + 1, puntos, "votos-respuesta", id, function(err){
+                                        num = num*-1;
+                                        updateMedalAnswer(puntos + num, puntos, "votos-respuesta", id, function(err){
                                             if(err){
                                                 console.log(err.message);
                                             } else console.log("Medallas actualizadas con éxito");
@@ -551,12 +555,13 @@ module.exports={
                 });
             }
             else{           
-                if(negative){
-                    DAOVotes.updatevoteAnswer(id, usuario, 1, function(err){
+                if(oposite){
+                    DAOVotes.updatevoteAnswer(id, usuario, num, function(err){
                         if(err){
                             next(err);
                         } else{
-                            DAOQuestt.voteAnswer(id, 2, function(err, result){
+                            num = num*2;
+                            DAOQuestt.voteAnswer(id, num, function(err, result){
                                 if(err){
                                     next(err);
                                 } else{
@@ -566,7 +571,7 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
-                                            updateMedalAnswer(puntos - 2, puntos, "votos-respuesta", id, function(err){
+                                            updateMedalAnswer(puntos - num, puntos, "votos-respuesta", id, function(err){
                                                 if(err){
                                                     console.log(err.message);
                                                 } else console.log("Medallas actualizadas con éxito");
@@ -585,7 +590,7 @@ module.exports={
                         if(err){
                             next(err);
                         } else{
-                            DAOQuestt.voteAnswer(id, 1, function(err, result){
+                            DAOQuestt.voteAnswer(id, num, function(err, result){
                                 if(err){
                                     next(err);
                                 } else{
@@ -595,7 +600,7 @@ module.exports={
                                         } else{
                                             let idVotos = id + "-votos";
                                             let puntos = result[0].puntos;
-                                            updateMedalAnswer(puntos - 1, puntos, "votos-respuesta", id, function(err){
+                                            updateMedalAnswer(puntos - num, puntos, "votos-respuesta", id, function(err){
                                                 if(err){
                                                     console.log(err.message);
                                                 } else console.log("Medallas actualizadas con éxito");
@@ -611,184 +616,4 @@ module.exports={
             }
         }
     },
-    //gestiona todas las opciones del boton downvote
-    downVote(request, response, next){
-        let usuario = response.locals.userId;
-        let id = request.body.id;
-        let pressed = request.body.pressed;
-        let positive = request.body.positive;
-        if(request.body.question){
-            if(!pressed){
-                DAOVotes.unvoteQuestion(id, usuario, function(err){
-                    if(err){
-                        next(err);
-                    } else{
-                        DAOQuestt.voteQuestion(id, 1, function(err, result){
-                            if(err){
-                                next(err);
-                            } else{
-                                DAOQuestt.getVotesQuestion(id, function(err, result){
-                                    if(err){
-                                        next(err);
-                                    } else{
-                                        let puntos = result[0].puntos;
-                                        updateMedalQuestions(puntos - 1, puntos, "votos-pregunta", id, function(err){
-                                            if(err){
-                                                console.log(err.message);
-                                            } else console.log("Medallas actualizadas con éxito");
-                                        });
-                                        response.json({ resultado: puntos, idVotos:"pregPuntos" });
-                                    }
-                                });
-                            }
-                        });
-                    } 
-                });
-            }
-            else{           
-                if(positive){
-                    DAOVotes.updatevoteQuestion(id, usuario, -1, function(err){
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.voteQuestion(id, -2, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    DAOQuestt.getVotesQuestion(id, function(err, result){
-                                        if(err){
-                                            next(err);
-                                        } else{
-                                            let puntos = result[0].puntos;
-                                            updateMedalQuestions(puntos + 2, puntos, "votos-pregunta", id, function(err){
-                                                if(err){
-                                                    console.log(err.message);
-                                                } else console.log("Medallas actualizadas con éxito");
-                                            });
-                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
-                                        }
-                                    });
-                                }
-                            });
-                        } 
-                    });
-                }
-                else{
-                    DAOVotes.downvoteQuestion(id, usuario, function(err){
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.voteQuestion(id, -1, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    DAOQuestt.getVotesQuestion(id, function(err, result){
-                                        if(err){
-                                            next(err);
-                                        } else{
-                                            let puntos = result[0].puntos;
-                                            updateMedalQuestions(puntos + 1, puntos, "votos-pregunta", id, function(err){
-                                                if(err){
-                                                    console.log(err.message);
-                                                } else console.log("Medallas actualizadas con éxito");
-                                            });
-                                            response.json({ resultado: puntos, idVotos:"pregPuntos" });
-                                        }
-                                    });
-                                }
-                            });
-                        } 
-                    });
-                }
-            }
-        } else{
-            if(!pressed){
-                DAOVotes.unvoteAnswer(id, usuario, function(err){
-                    if(err){
-                        next(err);
-                    } else{
-                        DAOQuestt.voteAnswer(id, 1, function(err, result){
-                            if(err){
-                                next(err);
-                            } else{
-                                DAOQuestt.getVotesAnswer(id, function(err, result){
-                                    if(err){
-                                        next(err);
-                                    } else{
-                                        let idVotos = id + "-votos";
-                                        let puntos = result[0].puntos;
-                                        updateMedalAnswer(puntos - 1, puntos, "votos-respuesta", id, function(err){
-                                            if(err){
-                                                console.log(err.message);
-                                            } else console.log("Medallas actualizadas con éxito");
-                                        });
-                                        response.json({ resultado: puntos, idVotos: idVotos });
-                                    }
-                                });
-                            }
-                        });
-                    } 
-                });
-            }
-            else{           
-                if(positive){
-                    DAOVotes.updatevoteAnswer(id, usuario, -1, function(err){
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.voteAnswer(id, -2, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    DAOQuestt.getVotesAnswer(id, function(err, result){
-                                        if(err){
-                                            next(err);
-                                        } else{
-                                            let idVotos = id + "-votos";
-                                            let puntos = result[0].puntos;
-                                            updateMedalAnswer(puntos + 2, puntos, "votos-respuesta", id, function(err){
-                                                if(err){
-                                                    console.log(err.message);
-                                                } else console.log("Medallas actualizadas con éxito");
-                                            });
-                                            response.json({ resultado: puntos, idVotos: idVotos });
-                                        }
-                                    });
-                                }
-                            });
-                        } 
-                    });
-                }
-                else{
-                    DAOVotes.downvoteAnswer(id, usuario, function(err){
-                        console.log(id);
-                        if(err){
-                            next(err);
-                        } else{
-                            DAOQuestt.voteAnswer(id, -1, function(err, result){
-                                if(err){
-                                    next(err);
-                                } else{
-                                    DAOQuestt.getVotesAnswer(id, function(err, result){
-                                        if(err){
-                                            next(err);
-                                        } else{
-                                            let idVotos = id + "-votos";
-                                            let puntos = result[0].puntos;
-                                            updateMedalAnswer(puntos + 1, puntos, "votos-respuesta", id, function(err){
-                                                if(err){
-                                                    console.log(err.message);
-                                                } else console.log("Medallas actualizadas con éxito");
-                                            });
-                                            response.json({ resultado: puntos, idVotos: idVotos });
-                                        }
-                                    });
-                                }
-                            });
-                        } 
-                    });
-                }
-            }
-        }  
-    }
 }

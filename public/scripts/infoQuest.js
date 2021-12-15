@@ -1,15 +1,15 @@
 
 //aniadir si es una pregunta o no y cambiar puntuacion en base a ello
-function sendUp(idUp, pressed, negative){
+function sendUp(idUp, pressed, oposite){
   if(pressed){
     $(idUp).css("background-image", "url(http://localhost:3000/images/upvote-verde.png)");
     $(idUp).data("pressed", true);
   }
   $.ajax({
     type: "POST",
-    url: "/index/upVote",
+    url: "/index/vote",
     contentType: "application/json",
-    data: JSON.stringify({ id: $(idUp).data("idOg"), pressed: pressed, negative: negative, question: $(idUp).data("question") }),
+    data: JSON.stringify({ id: $(idUp).data("idOg"), change: 1, pressed: pressed, oposite: oposite, question: $(idUp).data("question") }),
 
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
@@ -22,16 +22,16 @@ function sendUp(idUp, pressed, negative){
     });
 }
 // aniadir si es una pregunta o no y cambiar puntuacion en base a ello
-function sendDown(idDown, pressed, positive){
+function sendDown(idDown, pressed, oposite){
   if(pressed){
     $(idDown).css("background-image", "url(http://localhost:3000/images/downvote-rojo.png)");
     $(idDown).data("pressed", true);
   }
   $.ajax({
     type: "POST",
-    url: "/index/downVote",
+    url: "/index/vote",
     contentType: "application/json",
-    data: JSON.stringify({id: $(idDown).data("idOg"), pressed: pressed, positive: positive, question: $(idDown).data("question")}),
+    data: JSON.stringify({id: $(idDown).data("idOg"), change: -1,pressed: pressed, oposite: oposite, question: $(idDown).data("question")}),
     // En caso de éxito, mostrar el resultado en el documento HTML
     success: function (data, textStatus, jqXHR) {
     $("#" + data.idVotos).text("Votos: " + data.resultado);

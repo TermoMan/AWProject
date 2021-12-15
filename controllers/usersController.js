@@ -5,7 +5,7 @@ const DAOUserr = new DAOUser();
 
 module.exports = {
     login(request, response) {
-        response.render("login", { error: null })
+        response.render("login", { error: null });
     },
     logout(request, response) {
         request.session.destroy();

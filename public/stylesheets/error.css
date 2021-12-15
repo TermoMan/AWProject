@@ -1,0 +1,10 @@
+.float-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+.er{
+    font-size: 300%;
+    color:chartreuse
+}
